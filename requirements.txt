@@ -3,5 +3,5 @@ Flask-Session>=0.4
 python-dotenv>=1.0
 openai>=1.14
 SQLAlchemy>=2.0
-psycopg2-binary>=2.9
+psycopg[binary]>=3.0
 pandas>=2.0        # pour import CSV
