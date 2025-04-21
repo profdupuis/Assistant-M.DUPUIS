@@ -19,10 +19,9 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 INIT_PROMPT   = pathlib.Path("scenarios/initial_prompt.txt")
 SCENARIO_TXT  = pathlib.Path("scenarios/scenario.txt")
-MAP_JSON      = json.loads(pathlib.Path("scenarios/serie_active.json")
-                           .read_text(encoding="utf-8"))
-ANS_JSON      = json.loads(pathlib.Path("scenarios/answers_active.json")
-                           .read_text(encoding="utf-8"))
+MAP_JSON      = json.loads(pathlib.Path("scenarios/serie_active.json").read_text(encoding="utf-8"))
+ANS_JSON      = json.loads(pathlib.Path("scenarios/answers_active.json").read_text(encoding="utf-8"))
+CAT_JSON      = json.loads(pathlib.Path("scenarios/categories_active.json").read_text(encoding="utf-8"))
 
 # ─────────── helpers DB ──────────────────────────────────────────────
 def exo_row(conn, ordinal: int):
@@ -97,7 +96,7 @@ def api_message():
             exo = exo_row(cn, session["exo_courant"])
         session.update(exo_id=exo["exercise_id"], start=time.time())
 
-        next_ref   = f"EDiff_exo_{session['exo_courant']}"
+        next_ref   = f"exo_{session['exo_courant']}"
         nav_enonce = "\n\n---\n" + MAP_JSON.get(next_ref,
                                                "_Énoncé introuvable_")
     else:
@@ -110,7 +109,15 @@ def api_message():
 
     session["history"].append({"role": "user", "content": info})
     session["history"].append({"role": "user", "content": user_msg})
+    
+    
+    # Categorie
+    current_ref = f"exo_{session['exo_courant']}"
+    current_cat = CAT_JSON.get(current_ref, "Sans catégorie")
+    session["history"].append({"role": "system","content": f"# Catégorie de l'exercice : {current_cat}"})
 
+    
+    
     # appel GPT
     ai = client.chat.completions.create(
         model="gpt-4.1",
@@ -135,7 +142,7 @@ def api_message():
         if is_ok:
             step = 2 if elapsed < 120 else 1
             session["exo_courant"] += step
-            next_ref = f"EDiff_exo_{session['exo_courant']}"
+            next_ref = f"exo_{session['exo_courant']}"
 
             if next_ref in MAP_JSON:
                 session["start"] = time.time()
@@ -159,7 +166,6 @@ def reset():
     return redirect(url_for("login"))
 
 # ─────────── run ───────────────────────────────────────────────────
-# Lancement de l'application Flask en mode debug
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
