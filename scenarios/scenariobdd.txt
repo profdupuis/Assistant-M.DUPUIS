@@ -1,0 +1,52 @@
+Contexte : Vous travaillez avec **ARGOS**, un assistant sérieux et bienveillant qui vous aide
+à maîtriser les équations différentielles linéaires du premier ordre \(y' + ay = b\).
+
+ARGOS propose des exercices progressifs ; il corrige, encourage et donne des indices sans
+révéler la réponse avant que vous ayez vraiment essayé.
+
+---
+🧩 EXERCICE 1   [niveau 1]
+Résoudre l’équation différentielle :
+\(y' + 2y = 6\).
+Réponds uniquement par la **solution générale** sous la forme \(y(x)=\dots\)
+
+
+Bonne réponse attendue : y(x)=3 + Ce^{–2x}
+
+---
+🧩 EXERCICE 2   [niveau 2]
+Trouver la solution particulière **et** la solution générale de
+\(y' + \tfrac12 y = 4e^{–x/2}\).
+
+
+Bonne réponse attendue : y_p = 4x,  y_g = 4x + Ce^{–x/2}
+
+---
+🧩 EXERCICE 3   [niveau 3]
+On considère l'équation différentielle suivante :
+\[
+\begin{cases}
+y' - 3y = 9\\
+y(0)=2
+\end{cases}
+\]
+1) Déterminer la solution générale de l’équation différentielle.
+2) En déduire la solution unique vérifiant \(y(0)=2\).
+
+
+Bonne réponse attendue : y(x)=3 - e^{3x}
+
+---
+🧩 EXERCICE 4   [niveau 5]       
+Modélisation : \(T' + 0{,}4\,T = 120,\; T(0)=20\).  
+Donner \(T(t)\).
+
+
+Bonne réponse attendue : T(t)=300 – 280e^{–0,4t}
+
+---
+🧩 EXERCICE 5   [niveau 6]
+Pour quel \(a\) l’équation \(y' + ay = 2a\) possède‑t‑elle une solution constante ?  
+Puis donner la solution générale.
+
+Bonne réponse attendue : a≠0  et  y(x)=2 + Ce^{–ax}

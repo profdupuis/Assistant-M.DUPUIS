@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Sécurisé</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .container {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2> 🔒 Connexion ARGOS</h2>
+        <form method="POST">
+            <input type="text" name="id" placeholder="Identifiant élève">
+            <button type="submit">Connexion</button>
+        </form>
+        {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+    <p> <img src="/static/img/hydra.png" alt="Logo Hydra" style="max-width: 200px; opacity: 0.5; filter: grayscale(70%);"></p>
+    </div>
+
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 13px; color: rgb(255, 255, 255);">
+        Assistant de M.DUPUIS © 2025 – Interface pédagogique
+    </footer>
+</body>
+</html>

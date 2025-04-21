@@ -1,0 +1,217 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Consolas, monospace;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+footer {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 0 0 15px rgb(215, 216, 215);
+    align-items: center;
+}
+input[type=text], button {
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.input-container input[type="text"] {
+    flex: 1;
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.input-container button {
+    width: 100px;
+    font-family: Consolas, monospace;
+}
+
+.titre-centre {
+    text-align: center;
+}
+
+pre {
+    margin:0;
+    background-color: #111;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: 1px solid lime;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin-top: 0 px;
+    margin-bottom: 10px;
+    font-family: Consolas, monospace;
+}
+
+code {
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    display: block;
+    padding: 0;
+}
+
+#conversation {
+    height: 400px;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: #000;
+    scrollbar-color: rgb(250, 249, 249) black; /* Pour les navigateurs qui supportent */
+}
+
+
+
+
+
+
+
+/* Pour les navigateurs WebKit (Chrome, Edge, Safari) */
+#conversation::-webkit-scrollbar {
+    width: 10px;
+}
+#conversation::-webkit-scrollbar-thumb {
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+}
+#conversation::-webkit-scrollbar-track {
+    background: #000;
+}
+
+#conversation {
+    border-radius: 4px;
+}
+
+
+
+form {
+    display: flex;
+    flex-direction: row; /* disposition par défaut */
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+
+
+/* Responsive */
+
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 18px; /* Agrandit tout le texte par défaut */
+        padding: 10px; /* Réduit le padding pour éviter le décalage */
+        align-items: center;
+    }
+    .container {
+      width: 90%;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      font-size: 18px;
+    }
+
+
+    .editor-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .code-container,
+    .mission-box {
+        width: 90%;
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    .code-container {
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+
+
+    .console-output {
+        font-size: 16px;
+    }
+
+    .editor-section {
+            flex-direction: column-reverse;
+       }
+
+    #editor,
+    #result {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            display: block;
+            text-align: left;
+        }
+
+
+        /* bouton executer */
+.bouton-centre {
+    text-align: center;
+    margin: 20px auto;
+    width: 100%;
+}
+
+.bouton-centre button {
+    margin: 0 auto;
+}
+
+
+/* avant code */
+    pre {
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input[type="text"], button {
+    width: 90%;
+    max-width:300px;
+  }
+
+
+
+button {
+    width: 120px;
+    font-size: 14px;
+    padding: 6px 10px;
+}
+
+  }
