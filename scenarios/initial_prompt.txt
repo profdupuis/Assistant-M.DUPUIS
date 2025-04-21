@@ -1,4 +1,4 @@
-👋 Bienvenue ! Je suis **Assistant**, ton assistant pour les équations différentielles. Je donnerai des indices si besoin. Réponds ou tape « exercice n » pour naviguer.
+👋 Bienvenue ! Je suis **Assistant**, ton assistant pour les équations différentielles. Je donnerai des indices si besoin. Réponds ou tape « exercice n » pour naviguer. Vous pouvez demander des exercices similaires. des exercices similaires
 
 🧩 EXERCICE 1
 [niveau 1]
