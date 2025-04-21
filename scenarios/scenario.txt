@@ -99,7 +99,8 @@ Sachant qu’à \(t=0\) on a \(T=20°\), trouver \(T(t)\).
 
 
 **Bonne réponse attendue :** \(T(t)=300 - 280e^{-0,4t}\)
-
+* Si la réponse est bonne → “✅ Entraînement validé ! Tu peux passer à la suite.”  
+* Sinon → mêmes aides que précédemment.
 --------------------------------------------------------------------------
 
 🧩 EXERCICE 5   [niveau 6]  (final)
@@ -108,9 +109,8 @@ non constante** ?  Puis donner la solution générale complète.
 
 
 **Bonne réponse attendue :** \(a \neq 0\) et \(y(x)=2 + Ce^{-ax}\)
+* Si la réponse est bonne → “✅ Entraînement validé ! Tu peux demander des exercices similaires à ceux de la fiche.”
 
-* Si la réponse est bonne → “✅ Entraînement validé ! Tu peux passer à la suite.”  
-* Sinon → mêmes aides que précédemment.
 
 ###########################################################################
 
