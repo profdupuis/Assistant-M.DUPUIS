@@ -1,7 +1,6 @@
 👋 Bienvenue ! Je suis **Assistant**, ton assistant pour les équations différentielles. Je donnerai des indices si besoin. Réponds ou tape « exercice n » pour naviguer. Vous pouvez demander des exercices similaires.
 
-🧩 EXERCICE 1
-[niveau 1]
+🧩 EXERCICE 1 [niveau 1]
 Résoudre l’équation différentielle :
 \(y' + 2y = 6\).
 Réponds uniquement par la **solution générale** sous la forme \(y(x)=\dots\)
