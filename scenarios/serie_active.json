@@ -1,7 +1,7 @@
 {
-  "EDiff_exo_1": "🧩 EXERCICE 1\n[niveau 1]\nRésoudre l’équation différentielle :\n\\(y' + 2y = 6\\).\nRéponds uniquement par la **solution générale** sous la forme \\(y(x)=\\dots\\)\n\n\n\n---",
-  "EDiff_exo_2": "🧩 EXERCICE 2\n[niveau 2]\nTrouver la solution particulière **et** la solution générale de\n\\(y' + \\tfrac12 y = 4e^{–x/2}\\).\n\n\n\n---",
-  "EDiff_exo_3": "🧩 EXERCICE 3\n[niveau 3]\nOn considère l'équation différentielle suivante :\n\\[\n\\begin{cases}\ny' - 3y = 9\\\\\ny(0)=2\n\\end{cases}\n\\]\n1) Déterminer la solution générale de l’équation différentielle.\n2) En déduire la solution unique vérifiant \\(y(0)=2\\).\n\n\n\n---",
-  "EDiff_exo_4": "🧩 EXERCICE 4\n[niveau 5]       \nModélisation : \\(T' + 0{,}4\\,T = 120,\\; T(0)=20\\).  \nDonner \\(T(t)\\).\n\n\n\n---",
-  "EDiff_exo_5": "🧩 EXERCICE 5\n[niveau 6]\nPour quel paramètre \\(a\\) l’équation \\(y' + ay = 2a\\) admet‑elle une **solution\nnon constante** ?  Puis donner la solution générale complète."
+  "exo_1": "🧩 EXERCICE 1 [niveau 1]\nRésoudre l’équation différentielle :\n\\[y' + 2y = 6\\].\nRéponds uniquement par la **solution générale** sous la forme \\(y(x)=\\dots\\)",
+  "exo_2": "🧩 EXERCICE 2 [niveau 1]\nTrouver une solution particulière **et** la solution générale de :\n\\(y' + \\tfrac12\\,y = 4e^{-x/2}\\).",
+  "exo_3": "🧩 EXERCICE 3 [niveau 2]\nProblème de Cauchy :\n\\[\n\\begin{cases}\ny' - 3y = 9\\\\\ny(0)=2\n\\end{cases}\n\\]\n1) Déterminer la solution générale de l’équation différentielle.\n2) En déduire la solution unique vérifiant \\(y(0)=2\\).",
+  "exo_4": "🧩 EXERCICE 4 [niveau 2]\nModélisation : la température d’un objet \\(T(t)\\) suit \\(T' + 0{,}4\\,T = 120\\).\nSachant qu’à \\(t=0\\) on a \\(T=20°\\), trouver \\(T(t)\\).",
+  "exo_5": "🧩 EXERCICE 5 [niveau 6]\nPour quelles valeurs de \\(a\\) l’équation \\(y' + ay = 2a\\) admet‑elle une **solution\nnon constante** ?  Puis donner la solution générale complète."
 }
