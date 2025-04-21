@@ -46,7 +46,8 @@ Bonne réponse attendue : T(t)=300 – 280e^{–0,4t}
 
 ---
 🧩 EXERCICE 5   [niveau 6]
-Pour quel \(a\) l’équation \(y' + ay = 2a\) possède‑t‑elle une solution constante ?  
-Puis donner la solution générale.
+Pour quel paramètre \(a\) l’équation \(y' + ay = 2a\) admet‑elle une solution
+non constante ?  Puis donner la solution générale complète.
+
 
 Bonne réponse attendue : a≠0  et  y(x)=2 + Ce^{–ax}
