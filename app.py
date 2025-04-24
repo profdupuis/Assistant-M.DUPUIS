@@ -216,7 +216,7 @@ def interface_ia():
             session["exo_valide"]=[]
         reprise_msg = "🎉 Tu as déjà terminé tous les exercices de cette fiche. Tu peux les refaire si tu veux t'entraîner."
     elif len(done_refs) == 0:
-        reprise_msg = "🚀 C’est parti ! Voici ton premier exercice de la fiche."
+        reprise_msg = "Voici ton premier exercice de la fiche."
     else:
         reprise_msg = "🔁 On reprend là où tu t’étais arrêté. Voici l’exercice suivant :"
 
