@@ -454,7 +454,14 @@ def api_message():
     
     # tentative (ne compte pas la simple navigation)
     if not nav:
-        is_ok = "EXERCICE TERMINE : ✅" in reply.upper()
+        
+        # ✅ On considère l'exercice terminé uniquement si la phrase attendue apparaît
+        is_finished = "EXERCICE TERMINE : ✅" in reply.upper()
+
+        # ✅ On détecte au moins un succès partiel pour is_correct
+        is_ok = "✅" in reply and "❌" not in reply
+
+        # 🔁 Enregistrement dans attempts, même si partiel
         with engine.begin() as cn:
             cn.execute(text("""
                 INSERT INTO attempts(student_id,exercise_id,started_at,ended_at,
@@ -463,8 +470,9 @@ def api_message():
             """), {"sid": session["student_id"], "eid": session["exo_id"],
                    "s": session.get("start", time.time()), "e": elapsed,
                    "ans": user_msg[:500], "ok": is_ok})
-
-        if is_ok:
+            
+        # ✅ Si le message de fin apparaît → on valide l'exercice
+        if is_finished:
             ref = f"exo_{session['exo_courant']}"
             if ref not in session.get("exo_valide", []):
                 session.setdefault("exo_valide", []).append(ref)
@@ -473,16 +481,9 @@ def api_message():
             ####################### enregistrement done ref en bdd ##############################
             update_done_refs(session["student_id"], ref)
 
-
-
-
-
-
-
-
             step = 1  # ou 2 si on veut sauter selon le temps
+            
             # Liste des exos restants
-            # all_refs = sorted(MAP_JSON.keys(), key=lambda x: int(x.split("_")[1]))
             done_refs = session.get("exo_valide", [])
             pending_refs = [ref for ref in all_refs if ref not in done_refs]
             
@@ -600,16 +601,17 @@ def get_evolution_par_scenario(classe=None, student_id=None):
 
     sql = text(f"""
         SELECT
-          sc.name,
+          es.title,
           COUNT(*) FILTER (WHERE a.is_correct) AS nb_bonnes,
-          COUNT(*) AS nb_total
+          COUNT(*) AS nb_total,
+          sc.created_at
         FROM attempts a
         JOIN students s       ON s.student_id = a.student_id
         JOIN exercises e      ON e.exercise_id = a.exercise_id
         JOIN exercise_sets es ON es.set_id = e.set_id
         JOIN scenarios sc     ON sc.id = es.scenario_id
         {filter_clause}
-        GROUP BY sc.id, sc.name, sc.created_at
+        GROUP BY es.set_id, es.title, sc.created_at
         ORDER BY sc.created_at
     """)
 
@@ -819,11 +821,37 @@ def delete_scenario():
         abort(400)
 
     with engine.begin() as cn:
-        # Supprimer le scénario et ses liens éventuels
+        # Étape 1 : Trouver les exercise_id liés au scénario
+        exercise_ids = cn.execute(text("""
+            SELECT e.exercise_id
+            FROM exercises e
+            JOIN exercise_sets es ON e.set_id = es.set_id
+            WHERE es.scenario_id = :id
+        """), {"id": scenario_id}).scalars().all()
+
+        # Étape 2 : Supprimer les tentatives liées à ces exercices
+        if exercise_ids:
+            cn.execute(text("""
+                DELETE FROM attempts
+                WHERE exercise_id = ANY(:ids)
+            """), {"ids": exercise_ids})
+
+        # Étape 3 : Supprimer les exercices liés au scénario
+        cn.execute(text("""
+            DELETE FROM exercises
+            USING exercise_sets es
+            WHERE exercises.set_id = es.set_id AND es.scenario_id = :id
+        """), {"id": scenario_id})
+
+        # Étape 4 : Supprimer les sets d’exercices
         cn.execute(text("DELETE FROM exercise_sets WHERE scenario_id = :id"), {"id": scenario_id})
+
+        # Étape 5 : Supprimer le scénario lui-même
         cn.execute(text("DELETE FROM scenarios WHERE id = :id"), {"id": scenario_id})
 
     return redirect(url_for("dashboard"))
+
+
 
 @app.route("/dashboard/upload_scenario", methods=["POST"])
 def upload_scenario():
@@ -1021,18 +1049,21 @@ def dashboard_eleve(student_id):
         JOIN exercises e     ON e.exercise_id = a.exercise_id
         JOIN exercise_sets s ON s.set_id      = e.set_id
         WHERE a.student_id = :sid
-          AND s.is_active = TRUE
-        ORDER BY a.ended_at
+        ORDER BY a.ended_at DESC
+        LIMIT 100
         """)
         hist = conn.execute(sql, {"sid": student_id}).mappings().all()
 
         feedback_row = conn.execute(text("""
-            SELECT feedback, created_at
-            FROM feedbacks
-            WHERE student_id = :sid
-            ORDER BY created_at DESC
+            SELECT f.feedback, f.created_at
+            FROM feedbacks f
+            JOIN scenarios s ON s.id = f.scenario_id
+            WHERE f.student_id = :sid
+              AND s.is_active = TRUE
+            ORDER BY f.created_at DESC
             LIMIT 1
         """), {"sid": student_id}).mappings().first()
+
 
     hist = [dict(r) for r in hist]
     return render_template("dashboard_eleve.html",
@@ -1077,6 +1108,7 @@ def dashboard_exercice(exo):
                            exo=exo,
                            rows=rows
                            )
+
 
 
 
