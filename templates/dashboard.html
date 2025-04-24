@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord – Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <!-- (Optionnel) -->
+  <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+</head>
+<body>
+  <div class="dashboard-container">
+  <h1>📊 Tableau de bord enseignant</h1>
+
+  <h1>📁 Scénarios en base</h1>
+  <form method="post" action="{{ url_for('activate_scenario') }}" class="scenario-action">
+    <fieldset>
+      <legend>🎛️ Activer un scénario</legend>
+      <label>Classe :
+        <select name="class_name">
+          {% for cl in all_classes %}
+          <option value="{{ cl }}">{{ cl }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Scénario :
+        <select name="scenario_id">
+          {% for s in all_scenarios %}
+          <option value="{{ s.id }}">
+            {{ s.class_name }} – {{ s.name }}{% if s.is_active %} ✅{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit">✅ Activer</button>
+    </fieldset>
+  </form>
+
+  <form method="post" action="{{ url_for('delete_scenario') }}" class="scenario-action">
+    <fieldset>
+      <legend>🗑️ Supprimer un scénario</legend>
+      <label>Scénario :
+        <select name="scenario_id">
+          {% for s in all_scenarios %}
+          <option value="{{ s.id }}" {% if s.is_active %}title="Scénario actuellement actif"{% endif %}>
+            {{ s.class_name }} – {{ s.name }}{% if s.is_active %} ⚠️ actif{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit" onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+    </fieldset>
+  </form>
+
+  <form method="post" enctype="multipart/form-data"
+        action="{{ url_for('upload_scenario') }}" class="scenario-action">
+    <fieldset>
+      <legend>📂 Importer un scénario (.txt)</legend>
+      <input type="file" name="fichier" accept=".txt" required>
+      <button type="submit">Importer</button>
+    </fieldset>
+  </form>
+
+  <h1>🔍 Analyse des performances</h1>
+
+  <form method="get" action="{{ url_for('dashboard') }}" class="filters">
+    <label>Exercice :
+      <select name="exercice">
+        <option value="">Tous</option>
+        {% for row in stats %}
+        <option value="{{ row.exercice }}"
+          {% if row.exercice == filter_exo %}selected{% endif %}>
+          {{ row.exercice }}
+        </option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Classe :
+      <select name="classe">
+        <option value="">Toutes</option>
+        {% for cl in all_classes %}
+        <option value="{{ cl }}" {% if cl==filter_classe %}selected{% endif %}>
+          {{ cl }}
+        </option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Depuis :
+      <select name="since">
+        <option value="0" {% if filter_since==0 %}selected{% endif %}>Tout</option>
+        <option value="1" {% if filter_since==1 %}selected{% endif %}>24 h</option>
+        <option value="7" {% if filter_since==7 %}selected{% endif %}>7 jours</option>
+        <option value="30"{% if filter_since==30%}selected{% endif %}>30 jours</option>
+      </select>
+    </label>
+
+    <button type="submit">Appliquer</button>
+  </form>
+
+  <div class="scenario-indicator" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      {% if scenario_nom %}
+      <span style="background: #d3ebff; padding: 0.3em 0.7em; border-radius: 4px;">
+        📘 Scénario actif analysé : <strong>{{ scenario_nom }}</strong>
+      </span>
+      {% endif %}
+    </div>
+    <form method="post" action="{{ url_for('export_csv') }}">
+      <input type="hidden" name="classe" value="{{ filter_classe }}">
+      <button type="submit">⬇️ Exporter les résultats</button>
+    </form>
+  </div>
+
+  <h2>Performance par exercice</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Exercice</th><th>% Réussite</th><th># Tentatives</th><th>Temps moyen (s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in stats %}
+      <tr>
+        <td>
+          <a href="{{ url_for('dashboard_exercice', exo=row.exercice) }}">
+            Exo {{ row.exercice }}
+          </a>
+        </td>
+        <td>{{ "%.0f"|format(100 * row.n_success / (row.n_total or 1)) }} %</td>
+        <td>{{ row.n_total }}</td>
+        <td>{{ row.avg_time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  {% if feedback_rows %}
+<h2>📘 Feedbacks finaux (scénario actif)</h2>
+<table>
+  <thead>
+    <tr><th>Élève</th><th>Classe</th><th>Date</th><th>Feedback IA</th></tr>
+  </thead>
+  <tbody>
+    {% for row in feedback_rows %}
+    <tr>
+      <td>
+        <a href="{{ url_for('dashboard_eleve', student_id=row.student_id) }}">
+          {{ row.student_id }}
+        </a>
+      </td>
+      <td>{{ row.class }}</td>
+      <td>{{ row.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ row.feedback.replace('\n', '<br>')|safe }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+
+<h2>Performance par classe</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Classe</th><th>% Réussite</th><th># Tentatives</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in by_class %}
+    <tr>
+      <td>{{ row.class }}</td>
+      <td>{{ "%.0f"|format(100 * row.n_success / (row.n_total or 1)) }} %</td>
+      <td>{{ row.n_total }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<h2>📈 Évolution de la réussite par scénario</h2>
+{% if evolution %}
+<canvas id="graph-evol-scenario" width="600" height="300"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const evolData = {
+  labels: {{ evolution | map(attribute='scenario') | list | tojson }},
+  datasets: [{
+    label: "% de réussite",
+    data: {{ evolution | map(attribute='pourcentage') | list | tojson }},
+    borderColor: "green",
+    backgroundColor: "rgba(0,128,0,0.2)",
+    fill: true,
+    tension: 0.3
+  }]
+};
+new Chart(document.getElementById('graph-evol-scenario'), {
+  type: 'line',
+  data: evolData,
+  options: {
+    scales: {
+      y: { beginAtZero: true, max: 100 }
+    }
+  }
+});
+
+
+</script>
+{% else %}
+<p><em>Aucune donnée disponible.</em></p>
+{% endif %}
+
+
+
+  <div class="dashboard-footer">
+    <span>🔒 Connecté en tant qu’administrateur</span>
+    <a href="{{ url_for('admin_logout') }}">Se déconnecter</a>
+  </div>
+</div>
+</body>
+</html>

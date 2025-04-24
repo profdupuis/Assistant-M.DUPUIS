@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface IA</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+<!-- (Optionnel) -->
+<link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="titre-centre">💬 Exercices - Dialogue avec Assistant de M.DUPUIS</h2>
+        <div id="conversation" style="height:500px;overflow:auto;border-bottom:1px solid #fff; margin-bottom:10px;">
+            <p><strong>Assistant :</strong>{{ initial_message | safe }}</p>
+        </div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Entrez votre commande ici...">
+            <button onclick="sendMessage()">Envoyer</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("userInput").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            if (!message) return;
+        
+            const conversation = document.getElementById('conversation');
+            conversation.innerHTML += "<p><strong>Vous :</strong> " + message + "</p>";
+            userInput.value = '';
+        
+            try {
+                const response = await fetch('/api/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+        
+                const data = await response.json();
+                let reply = data.reply;
+        
+                // Gérer les blocs de code markdown ```python
+                const parts = reply.split(/```(?:python)?\n([\s\S]*?)```/g);
+                let formattedReply = "";
+        
+                for (let i = 0; i < parts.length; i++) {
+                    if (i % 2 === 0) {
+                        // Texte normal : ajouter <br> à chaque \n
+                        formattedReply += parts[i].replace(/\n/g, "<br>");
+                    } else {
+                        // Bloc de code : ajouter <br> à chaque ligne sauf la dernière
+                        const lines = parts[i].split("\n");
+                        const codeWithBr = lines.map((line, index) =>
+                            index === lines.length - 1 ? line : line + "<br>"
+                        ).join("");
+                        formattedReply += `<pre><code>${codeWithBr}</code></pre>`;
+                    }
+                }
+        
+                conversation.innerHTML += `<div><strong>Assistant :</strong> ${formattedReply}</div>`;
+        
+        
+                MathJax.typeset();
+                conversation.scrollTop = conversation.scrollHeight;
+            } catch (error) {
+                conversation.innerHTML += "<p style='color:red;'><strong>Erreur :</strong> Impossible de contacter HYDRA.</p>";
+            }
+        }
+        </script>
+    <footer style="text-align: center; margin-top: 40px; font-size: 1em; color: rgba(255, 255, 255, 0.8);">
+        <div style="margin-bottom: 0.5em;">
+            <span style="font-size: 0.95em; font-weight: normal;">
+                Assistant de M. DUPUIS © 2025 – MIT License
+            </span>
+        </div>
+        <div style="font-size: 1em; opacity: 0.8;">
+            ✨ Ce site utilise l’API OpenAI (GPT-4.1).
+            <a href="https://openai.com" target="_blank" style="margin-left: 5px;">
+                <img src="/static/img/openai.svg"
+                     alt="Logo OpenAI" title="Propulsé par OpenAI"
+                     style="height: 26px; vertical-align: middle;">
+            </a>
+        </div>
+    </footer>
+</body>
+</html>

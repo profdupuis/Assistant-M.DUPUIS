@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Élève {{ student_id }} – Historique</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <!-- (Optionnel) -->
+  <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 1em;">
+      <div>
+        <label for="studentSelect"><strong>🔁 Basculer vers un autre élève :</strong></label>
+        <select id="studentSelect" onchange="window.location.href='/dashboard/eleve/' + this.value;">
+          {% for sid in students %}
+            <option value="{{ sid }}" {% if sid == student_id %}selected{% endif %}>{{ sid }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    
+      <div style="margin-left: auto;">
+        <a href="{{ url_for('dashboard') }}">← Retour Menu</a>
+      </div>
+    </div>
+
+
+
+
+    <h1>📋 Historique de {{ student_id }}</h1>
+
+
+
+
+    <h2>📈 Évolution de la réussite par scénario</h2>
+{% if evolution %}
+<canvas id="evolGraph" width="600" height="300"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const evolData = {
+  labels: {{ evolution | map(attribute='scenario') | list | tojson }},
+  datasets: [{
+    label: "Réussite (%)",
+    data: {{ evolution | map(attribute='pourcentage') | list | tojson }},
+    borderColor: "green",
+    backgroundColor: "rgba(0,128,0,0.1)",
+    fill: true,
+    tension: 0.3
+  }]
+};
+new Chart(document.getElementById('evolGraph'), {
+  type: 'line',
+  data: evolData,
+  options: {
+    scales: {
+      y: { beginAtZero: true, max: 100 }
+    }
+  }
+});
+</script>
+{% else %}
+<p><em>Aucune tentative enregistrée sur des scénarios.</em></p>
+{% endif %}
+
+
+
+
+
+    {% if feedback %}
+<h1>📘 Feedback IA final (actuel) </h1>
+<div class="feedback-box">
+  <strong>Date :</strong> {{ feedback.created_at.strftime('%Y-%m-%d %H:%M') }}<br>
+  <div class="feedback-text">
+    {{ feedback.feedback.replace('\n', '<br>')|safe }}
+  </div>
+</div>
+{% endif %}
+
+
+
+
+    <table>
+      <thead>
+        <tr>
+          <th>Exercice</th><th>Série</th><th>Début</th>
+          <th>Fin</th><th>Durée (s)</th><th>Réponse</th><th>Correct</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in hist %}
+        <tr>
+          <td>{{ a.exercice }}</td>
+          <td>{{ a.serie }}</td>
+          <td>{{ a.started_at.strftime('%Y‑%m‑%d %H:%M') }}</td>
+          <td>{{ a.ended_at.strftime('%Y‑%m‑%d %H:%M') }}</td>
+          <td>{{ a.elapsed_s }}</td>
+          <td><code>{{ a.given_answer }}</code></td>
+          <td>{{ '✅' if a.is_correct else '❌' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

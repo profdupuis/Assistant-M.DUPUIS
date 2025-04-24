@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercice {{ exo }} – Détail</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <!-- (Optionnel) -->
+  <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1>📊 Détail Exercice {{ exo }}</h1>
+    <p><a href="{{ url_for('dashboard') }}">← Retour au résumé</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Élève</th>
+          <th>Classe</th>
+          <th>Succès</th>
+          <th># Tentatives</th>
+          <th>Temps moyen (s)</th>
+          <th>Dern. essai</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>
+            <a href="{{ url_for('dashboard_eleve', student_id=r.student_id) }}">
+              {{ r.student_id }}
+            </a>
+          </td>
+          <td>{{ r.class }}</td>
+          <td>{{ '✅' if r.success else '❌' }}</td>
+          <td>{{ r.attempts }}</td>
+          <td>{{ r.avg_time }}</td>
+          <td>{{ r.last_attempt.strftime('%Y‑%m‑%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
