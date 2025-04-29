@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion RGPD – Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <div class="dashboard-footer">
+            <a href="{{ url_for('dashboard') }}">← Retour au dashboard principal</a>
+            <span>🔒 Connecté en tant qu’administrateur</span>
+            <a href="{{ url_for('admin_logout') }}">Se déconnecter</a>
+          </div>
+
+
+    <h1>🛡️ Gestion RGPD des élèves</h1>
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages[-1:] %} {# Ne prend que le dernier #}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      </div>
+
+        {% if last_purge and purge_recent %}
+         <div class="info-banner">🧹 Dernière purge RGPD effectuée le {{ last_purge.strftime('%d/%m/%Y à %H:%M') }}</div>
+        {% else %}
+      <div class="warning-banner">⚠️ Aucune purge RGPD effectuée récemment (plus de {{ purge_days }} jours).</div>
+        {% endif %}
+  
+        {% if flag_grave_detected %}
+        <div class="warning-banner flex-banner">
+            <span>🚨 Attention : au moins un problème critique (self-harm) a été détecté dans les derniers échanges !</span>
+        
+            <form action="{{ url_for('export_flags_graves_route') }}" method="post">
+                <button type="submit" class="critical-button">⬇️ .csv</button>
+            </form>
+        </div>
+        {% endif %}
+    
+
+
+        
+        
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('upload_students') }}" class="scenario-action">
+        <fieldset>
+          <legend>📂 Importer un fichier élèves (.csv)</legend>
+          <input type="file" name="fichier" accept=".csv" required>
+          <button type="submit">Importer élèves</button>
+        </fieldset>
+      </form>
+
+    <form method="get" class="scenario-action">
+        <fieldset>
+        <legend>🔐 Gérer le consentement et effacer des élèves</legend>
+        <label>Classe :
+          <select name="classe">
+            <option value="">Aucune</option>
+            {% for cls in classes %}
+            <option value="{{ cls }}" {% if cls == selected_class %}selected{% endif %}>{{ cls }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <button type="submit">Filtrer</button>
+    </fieldset>
+      </form>
+
+      <form method="post" action="{{ url_for('export_worm_route') }}" class="scenario-action">
+        <fieldset>
+            <legend>📦 Export WORM (7 derniers jours)</legend>
+            <div class="export-buttons">
+                <button type="submit">📦 Exporter WORM</button>
+            </div>
+        </fieldset>
+    </form>
+    
+    <form method="post" action="{{ url_for('purge_old_logs_route') }}" class="scenario-action">
+        <fieldset>
+            <legend>🧹 Anonymiser anciens logs</legend>
+            <div class="export-buttons">
+                <button type="submit">🧹 Purger anciens logs (>15 jours)</button>
+            </div>
+        </fieldset>
+    </form>
+    
+    <form method="get" action="{{ url_for('download_latest_worm_route') }}" class="scenario-action">
+        <fieldset>
+            <legend>📂 Télécharger archive WORM</legend>
+            <div class="export-buttons">
+                <button type="submit">⬇️ Télécharger WORM</button>
+            </div>
+        </fieldset>
+    </form>
+    
+      
+
+
+     
+
+    {% if selected_class %}
+    <table>
+        <thead>
+            <tr>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Consentement donné</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.student_id }}</td>
+                <td>{{ student.class }}</td>
+                <td>
+                    {% if student.rgpd_consent_date %}
+                        ✅ ({{ student.rgpd_consent_date.strftime('%d/%m/%Y') }})
+                    {% else %}
+                        ❌
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_student_route', student_id=student.student_id) }}" onsubmit="return confirm('Confirmer la suppression de cet élève ?')">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
+    <h2>🚨 Historique des problèmes détectés</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Élève</th>
+                <th>Problèmes détectés</th>
+                <th>Prompt concerné</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in flag_history %}
+                {% set flags = record.flags %}
+                {% set true_flags = [] %}
+                {% for key, value in flags.items() %}
+                    {% if value %}
+                        {% set _ = true_flags.append(key) %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% set true_flags_normalized = [] %}
+                {% for flag in true_flags %}
+                    {% set _ = true_flags_normalized.append(flag.lower()) %}
+                {% endfor %}
+    
+                <tr class="{% if 'self-harm' in true_flags_normalized or 'self-harm/intent' in true_flags_normalized %}urgent{% elif 'violence' in true_flags_normalized or 'hate' in true_flags_normalized %}attention{% endif %}">
+                    <td>{{ record.ts.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ record.user_id }}</td>
+                    <td>⚠️ {{ true_flags|join(', ') }}</td>
+                    <td>{{ record.prompt }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+
+    <h2>📜 Historique des exports WORM</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date d'export</th>
+                <th>Nombre de logs exportés</th>
+                <th>Taille du fichier (Ko)</th>
+                <th> 📂 Télécharger</th> <!-- 🆕 nouvelle colonne -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in worm_history %}
+            <tr>
+                <td>{{ record.export_date.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ record.nb_logs }}</td>
+                <td>{{ (record.size_bytes // 1024) }} Ko</td>
+                <td><a href="{{ url_for('download_worm_route', filename=record.filename) }}" class="button-download">⬇️ .zip </a></td> <!-- 🆕 bouton -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+    <h2>🧹 Historique des purges</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date de purge</th>
+                <th>Logs supprimés</th>
+                <th>Réponses anonymisées</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in purge_history %}
+            <tr>
+                <td>{{ record.purge_date.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ record.nb_logs_deleted }}</td>
+                <td>{{ record.nb_attempts_anonymized }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+    <form action="{{ url_for('prepare_audit_route') }}" method="post" class="scenario-action">
+        <fieldset>
+            <legend>📋 Préparer Audit RGPD</legend>
+            <button type="submit" class="audit-button">📂 Dossier Complet (.zip)</button>
+        </fieldset>
+    </form>
+    
+    <div class="rgpd-banner">
+        <h3>🛡️ Informations RGPD</h3>
+        <ul>
+            <li>Identifiants anonymes, aucune donnée nominative stockée.</li>
+            <li>Modération automatique avant et après envoi aux IA (OpenAI Moderation API).</li>
+            <li>Archivage sécurisé des logs (WORM, hash chaîné).</li>
+            <li>Purge automatique des données après 15 jours.</li>
+            <li>Export complet RGPD possible à tout moment.</li>
+            <li>Droit d'effacement garanti sur simple demande.</li>
+            <li>Base de données hébergée en Europe (Neon, Francfort).</li>
+            <li>Dernier audit RGPD téléchargeable depuis ce tableau de bord.</li>
+        </ul>
+    </div>
+    
+</body>
+</div>
+</html>
