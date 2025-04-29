@@ -1,0 +1,540 @@
+body {
+    background-color: rgb(213, 218, 230);
+    color: black;
+    font-family: Consolas, monospace;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+body {
+max-width: 960px;
+margin: 2em auto;
+padding: 1.5em;
+background: #ffffff;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+font-family: "Segoe UI", Roboto, sans-serif;
+color: #333333;
+}
+
+footer {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.footer-style {
+    text-align: center;
+    margin-top: 0px;
+    font-size: 1em;
+    color: black;
+  }
+  .footer-rgpd {
+    margin-top: 0.5em;
+  }
+
+.footer-open {
+    font-size: 0.7em; 
+    opacity: 0.8; 
+    margin-top: 0.5em;
+  }
+
+  .rgpd-link {
+    color: #000000;
+    font-size: 0.85em;
+    text-decoration: none;
+  }
+  
+  .openai-logo {
+    height: 30px;
+    vertical-align: middle;
+  }
+  
+ /* Logo : dégradé déjà inclus dans le SVG            */
+/* Halo animé au survol (ou en continu si tu préfères) */
+.logo-ia{
+    max-width:300px;           /* même taille qu’avant */
+    transition: filter 0.4s ease;
+    filter: drop-shadow(0 0 4px #3da8ff80);
+}
+
+/* animation continue ► décommenter si tu la veux en permanence */
+/* .logo-ia{
+    animation: pulse 3s ease-in-out infinite;
+} */
+
+.logo-ia{
+    animation: pulse 3s ease-in-out infinite;
+}
+  
+.logo-mini-pulse {
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 8px;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+.ia-buttons {
+  display: flex;
+  justify-content: space-between; /* Espacement égal entre les éléments */
+  align-items: center; /* Centrer verticalement les éléments */
+  padding: 10px 0; /* Espace autour des boutons */
+}
+
+
+/*  modale RGPD */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 80px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #000;
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.5em;
+  }
+  
+  .close {
+    float: right;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .close:hover {
+    color: #000;
+  }
+/*  .............................. */
+  
+.container-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 0 0 15px rgb(215, 216, 215);
+}
+
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 0 0 15px rgb(215, 216, 215);
+    align-items: center;
+}
+input[type=text], button {
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.input-container input[type="text"] {
+    flex: 1;
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.input-container button {
+    width: 100px;
+    font-family: Consolas, monospace;
+}
+
+.titre-centre {
+    text-align: center;
+}
+
+pre {
+    margin:0;
+    background-color: #111;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: 1px solid lime;
+    border-radius: 4px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin-top: 0 px;
+    margin-bottom: 10px;
+    font-family: Consolas, monospace;
+}
+
+code {
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    display: block;
+    padding: 0;
+}
+
+#conversation {
+    height: 400px;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: #f4f4ff;
+    scrollbar-color: rgb(233, 235, 240) black; /* Pour les navigateurs qui supportent */
+    color: black;
+}
+
+
+
+.footer-small {
+    font-size: 0.95em;
+    font-weight: normal;
+  }
+
+  
+
+
+/* Pour les navigateurs WebKit (Chrome, Edge, Safari) */
+#conversation::-webkit-scrollbar {
+    width: 10px;
+}
+#conversation::-webkit-scrollbar-thumb {
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+}
+#conversation::-webkit-scrollbar-track {
+    background: #000;
+}
+
+#conversation {
+    border-radius: 4px;
+}
+
+.conversation-box {
+    height: 500px;
+    overflow: auto;
+    border-bottom: 1px solid #fff;
+    margin-bottom: 10px;
+  }
+  
+
+form {
+    display: flex;
+    flex-direction: row; /* disposition par défaut */
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.rapport-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* espace horizontal entre les boutons */
+  margin-top: 1rem;
+}
+
+.rapport-buttons form {
+  margin: 0; /* Pas de marge inutile entre les formulaires */
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+
+
+@keyframes pulse{
+    0%,100%{ filter: drop-shadow(0 0 4px #3da8ff80); }
+    50%   { filter: drop-shadow(0 0 14px #3da8ff);   }
+}
+
+/* --------------- Chargement IA Attente ---------------------- */
+
+
+#loader {
+  text-align: center;
+  min-height: 25px; /* réserve l’espace pour loader */
+  margin-top: 10px;
+}
+
+#loader.hidden {
+  visibility: hidden;
+}
+
+#loader.hidden {
+  visibility: hidden;
+  height: 25px; /* ou la hauteur exacte de ton dot loader */
+}
+
+#loader {
+    text-align: center;
+    min-height: 25px; /* et PAS height ! */
+
+}
+
+.dot-loader {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+}
+
+.dot-loader span {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: rgb(107, 161, 241);
+    border-radius: 50%;
+    opacity: 0;
+    animation: dots 1.5s infinite;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+
+
+.dot-loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes dots {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+
+/* zzzzzzzzzzzzzzzzzzzzzzzzzzzz */
+
+
+
+
+
+
+.margin-left-5 {
+    margin-left: 5px;
+  }
+  
+ 
+
+  .button-link {
+    background-color: #5f5756;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  .button-link:hover {
+    background-color: #696d69;
+  }
+  
+  .button-link.logout {
+    background-color: #5f5756;
+  }
+  .button-link.logout:hover {
+    background-color: #a34242;
+  }
+  
+  .dashboard-buttons {
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  
+
+/* zzzzzzzzzzzzzzzzzzzzzzzzzzzz */
+
+
+
+
+
+/* Logo : dégradé déjà inclus dans le SVG            */
+
+/* Responsive */
+
+/* pour désactiver les animations chez les personnes sensibles :*/
+@media (prefers-reduced-motion: reduce){
+    .logo-ia{animation:none !important;filter:none !important;}
+}
+
+
+
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 18px; /* Agrandit tout le texte par défaut */
+        padding: 10px; /* Réduit le padding pour éviter le décalage */
+        align-items: center;
+    }
+    .container {
+      width: 90%;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    .container-login {
+        width: 90%;
+        font-size: 15px;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+    input[type="text"] {
+      width: 100%;
+      font-size: 18px;
+    }
+
+
+    .editor-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .code-container,
+    .mission-box {
+        width: 90%;
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    .code-container {
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+
+
+    .console-output {
+        font-size: 16px;
+    }
+
+    .editor-section {
+            flex-direction: column-reverse;
+       }
+
+    #editor,
+    #result {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            display: block;
+            text-align: left;
+        }
+
+
+        /* bouton executer */
+.bouton-centre {
+    text-align: center;
+    margin: 20px auto;
+    width: 100%;
+}
+
+.bouton-centre button {
+    margin: 0 auto;
+}
+
+
+/* avant code */
+    pre {
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input[type="text"], button {
+    width: 90%;
+    max-width:300px;
+  }
+
+
+
+button {
+    width: 120px;
+    font-size: 14px;
+    padding: 6px 10px;
+}
+
+
+    /* . Halo un peu moins fort                   */
+    /* → on crée une variante d’animation          */
+    @keyframes pulse-mobile{
+        0%,100%{ filter: drop-shadow(0 0 4px #3da8ff80); }
+        50%   { filter: drop-shadow(0 0 10px #3da8ff);   }
+    }
+    /* Et on l’applique en écrasant l’animation par défaut */
+    .logo-ia{
+        max-width: 300px;
+        animation: pulse-mobile 2s ease-in-out infinite;
+    }
+
+    .footer-small {
+        font-size: 0.85em;
+      }
+
+
+
+
+  }

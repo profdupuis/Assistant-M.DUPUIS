@@ -1,0 +1,633 @@
+/* static/dashboard.css */
+
+/* Conteneur principal */
+.dashboard-container {
+  max-width: 960px;
+  margin: 2em auto;
+  padding: 1.5em;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #333333;
+}
+
+/* Titres */
+.dashboard-container h1 {
+  font-size: 1.9rem;
+  margin-bottom: 0.5em;
+}
+.dashboard-container h2 {
+  font-size: 1.4rem;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.2em;
+}
+
+/* Tableaux */
+.dashboard-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5em;
+  overflow-x: auto;
+}
+.dashboard-container th,
+.dashboard-container td {
+  padding: 0.75em 1em;
+  text-align: center;
+  border: 1px solid #e6e6e6;
+}
+.dashboard-container th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+.dashboard-container tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Styles particuliers */
+.dashboard-container code {
+  background: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: Menlo, monospace;
+}
+
+.dashboard-container .note {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.export-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.3rem; /* plus discret */
+}
+
+.export-buttons form {
+  margin: 0; /* Supprime les marges autour des formulaires */
+}
+
+
+.scenario-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+
+.scenario-label {
+  background: #d3ebff;
+  padding: 0.3em 0.7em;
+  border-radius: 4px;
+}
+
+
+
+.filters {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1.5em;
+  flex-wrap: wrap;
+}
+.filters label {
+  font-size: 0.9rem;
+}
+.filters select {
+  margin-left: 0.3em;
+}
+.filters button {
+  padding: 0.4em 0.8em;
+  font-size: 0.9rem;
+}
+
+/* page log admin */
+
+.admin-container {
+  max-width: 500px;
+  text-align: center;
+}
+
+.admin-input {
+  width: 100%;
+  padding: 0.5em;
+}
+
+.admin-error {
+  color: red;
+  font-weight: bold;
+}
+
+
+
+
+/* Ajustements centrage pour le dashboard */
+.dashboard-container h1 {
+text-align: center;
+}
+
+.dashboard-container .filters {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 1rem;
+margin-bottom: 1.5rem;
+}
+
+.dashboard-container .filters label {
+margin: 0;
+}
+
+/* centre la ligne d’accès */
+.dashboard-container .access-note {
+  text-align: center;
+  margin-top: 2rem;    /* un peu d’espace au-dessus */
+  font-style: italic;  /* optionnel, pour la distinguer */
+}
+
+.scenario-action {
+  margin-top: 1.5rem;
+}
+
+.scenario-action fieldset {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+}
+
+.scenario-action legend {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #444;
+}
+
+/* Erreurs 500 et 404 */
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 960px;
+  margin: 2em auto;
+  padding: 1.5em;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #333333;
+}
+
+/* Centrage des blocs scénarios */
+.scenario-action {
+  margin: 1.5rem 0;
+}
+
+.scenario-action fieldset {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1.2rem 2rem;
+  margin-bottom: 1.5rem;
+  background: #f9f9f9;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+.scenario-action legend {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #444;
+  padding: 0 0.5rem;
+}
+
+
+
+
+.dashboard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.dashboard-footer a {
+  text-decoration: none;
+  color: #0066cc;
+  font-weight: 500;
+}
+
+/* Dashboard RGPD */
+
+.info-banner {
+  background-color: #e6f7ff;
+  border: 1px solid #91d5ff;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  color: #0050b3;
+  font-weight: bold;
+  text-align: center;
+}
+
+.warning-banner {
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  color: #cf1322;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+}
+
+.rgpd-banner {
+  background-color: #f0f5ff;
+  border: 1px solid #adc6ff;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 12px;
+  color: #003a8c;
+  font-size: 0.95rem;
+}
+.rgpd-banner h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.rgpd-banner ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+.rgpd-banner li {
+  margin-bottom: 0.4rem;
+}
+
+.flex-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.flex-banner form {
+    margin: 0;
+}
+
+.flex-banner button {
+    margin: 0;
+}
+
+
+.critical-button {
+  background-color: #f15b5ec4;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.critical-button:hover {
+  background-color: #cc323f;
+}
+
+.audit-button {
+  background-color: #79ad7b;
+  color: white;
+  font-weight: bold;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.audit-button:hover {
+  background-color: #5f7460;
+}
+
+
+.filters select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.filters label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+
+.flash-messages {
+  height: 50px; /* 👈 hauteur FIXE garantie */
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* évite que le message dépasse */
+}
+.small-action {
+  margin: 0.5rem 0;
+}
+
+.flash {
+  background: #e0ffe0;
+  border: 1px solid #00aa00;
+  color: #006600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  border-radius: 8px;
+}
+
+.flash {
+  display: inline-block; /* 🔥 taille du texte */
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: opacity 1s ease-out; /* 🔥 pour fade-out */
+}
+
+.flash.success {
+  background-color: #d4f9d4;
+  border: 2px solid #27ae60;
+  color: #14532d;
+}
+
+.flash.error {
+  background-color: #f8d7da;
+  border: 2px solid #e74c3c;
+  color: #842029;
+}
+.flash-area {
+  position: absolute;
+  top: 80px; /* adapte selon ta barre d'admin */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* pour pas bloquer les clics */
+}
+
+
+/* Pour les erreurs : rouge */
+
+.button-download {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  background: #e9eaff;
+  color: rgb(46, 46, 54);
+  border-radius: 8px;
+  font-weight: bold;
+}
+.button-download:hover {
+  background: #45a049;
+}
+
+/* Flags chatlog moderation */
+
+
+.urgent {
+  background-color: #ffcccc !important;
+}
+
+.attention {
+  background-color: #ffe4b3 !important;
+}
+
+
+
+
+/* Dashboard Eleve */
+
+
+.current-scenario {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+
+.feedback-box {
+  background-color: #f0f4ff;
+  border: 1px solid #c0d4ff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.empty-feedback {
+  font-style: italic;
+  color: #666;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+}
+
+.student-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.align-right {
+  margin-left: auto;
+}
+
+
+/* Container des boutons sur la même ligne */
+.dashboard-buttons {
+  display: flex;
+  justify-content: space-between; /* Espacement égal entre les éléments */
+  align-items: center; /* Centrer verticalement les éléments */
+  padding: 10px 0; /* Espace autour des boutons */
+}
+
+/* Boutons */
+.button-link {
+  display: inline-flex; /* 🔥 flex pour gérer texte + icône proprement */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em; /* espace entre texte et icône */
+  padding: 8px 16px;
+  background-color: #7c8bcf;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.button-link:hover {
+  background-color: #2933b6;
+}
+
+.button-link.logout {
+  background-color: #c5655e; /* Rouge pour logout */
+}
+
+.button-link.logout:hover {
+  background-color: #d33f3f;
+}
+
+
+/* Rendre le tableau responsive */
+.table-container {
+  overflow-x: auto; /* Permet de scroller horizontalement sur les petits écrans */
+}
+
+table {
+  width: 100%; /* Le tableau prendra toute la largeur disponible */
+  border-collapse: collapse; /* Pour supprimer les espaces entre les cellules */
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+canvas {
+  width: 100% !important; /* Forcer le canvas à prendre toute la largeur */
+
+  height: auto; /* Hauteur automatique */
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Style boutons principaux */
+.btn-principal, .btn-deconnexion {
+  padding: 8px 16px;
+  font-size: 1em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-principal {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.btn-deconnexion {
+  background-color: #b44d4d;
+  color: white;
+}
+
+/* Responsiveness : affiche icône seule sous 768px */
+
+
+.btn-text {
+  display: inline;
+}
+
+.btn-icon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .btn-text {
+    display: none;
+  }
+  .btn-icon {
+    display: inline;
+    font-size: 1.3em;
+  }
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 500px) {
+  .scenario-action fieldset {
+    padding: 1rem 1rem;
+  }
+
+  .scenario-action label,
+  .scenario-action select,
+  .scenario-action input,
+  .scenario-action button {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0.8em;
+    text-align: left;
+  }
+
+  .scenario-action button {
+    margin-top: 0.5em;
+  }
+  .error-container {
+      font-size: 1.2em;
+      padding: 0 1rem;
+  }
+  .error-container h1 {
+    font-size: 1.6em;
+}
+
+
+table, th, td {
+  display: block;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  padding-left: 10px;
+}
+
+td {
+  text-align: left;
+  padding-left: 10px;
+  border: none;
+}
+
+td:before {
+  content: attr(data-label); /* Ajoute des labels pour chaque cellule */
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+}
+
+}
+
