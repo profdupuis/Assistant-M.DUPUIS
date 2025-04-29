@@ -1,0 +1,7 @@
+Date de suppression : 2025-04-29 15:47 UTC
+Élève : TSTI2B-4I1X
+Nombre de logs anonymisés : 4
+Suppression de la fiche élève : Oui
+
+---
+Hash SHA256 du contenu du rapport : 67b80cee065b421689e661b61cf3bf0c159ed50784e48986c46a01ed42310b0c

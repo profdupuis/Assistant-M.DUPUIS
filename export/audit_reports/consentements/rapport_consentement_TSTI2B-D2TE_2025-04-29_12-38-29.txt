@@ -1,0 +1,3 @@
+Date de consentement : 2025-04-29 12:38 UTC
+Élève : TSTI2B-D2TE
+Premier hash RGPD : a302b7cc49bf8c75ac76c9efdb4fb709d976e608d7bfb456b26bf01144a07f2e

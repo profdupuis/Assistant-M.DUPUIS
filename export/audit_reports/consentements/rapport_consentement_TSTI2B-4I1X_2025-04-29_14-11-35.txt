@@ -1,0 +1,6 @@
+Date de consentement : 2025-04-29 14:11 UTC
+Élève : TSTI2B-4I1X
+Premier hash RGPD : 59cddd2d9810da0bf5351d9087a6f4d98735cacd76feeb4e9475cb9b8d119318
+
+---
+Hash SHA256 du contenu du rapport : 89eb7d4d9e8a1b0e6f8ca97d12464c3c8ee01a1b21aafaf0f7d94e54925bf68d
