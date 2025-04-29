@@ -1,3 +1,0 @@
-Date de la purge : 2025-04-28 21:31 UTC
-Nombre de logs supprimés : 0
-Nombre d'attempts anonymisés : 0
