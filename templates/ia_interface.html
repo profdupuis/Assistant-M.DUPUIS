@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface IA</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <!-- (Optionnel) -->
+    <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="{{ url_for('static', filename='js/keyboard_detector.js') }}"></script>
+</head>
+
+          <!-- Barre mobile flottante -->
+          <div class="mobile-action-bar" id="mobile-bar">
+            <a href="{{ url_for('mon_dashboard') }}" class="mobile-icon" aria-label="menu"><img class="scenario-img"
+              src="{{ url_for('static', filename='img/icon_home.png') }}"
+              alt="Scénarios"></a>
+            <div class="mobile-loader" id="dot-loader" style="display: none;">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <a href="{{ url_for('logout') }}" class="mobile-icon" aria-label="Déconnexion"><img class="scenario-img"
+              src="{{ url_for('static', filename='img/icon_lock.png') }}"
+              alt="Scénarios"></a>
+          </div>
+<body>
+    <div class="container">
+        <h2 class="titre-centre">💬 Exercices - Dialogue</h2>
+
+        <!-- autre chargement
+        <h2 class="titre-ia">
+            <img src="/static/img/hydra.png" alt="IA" class="logo-mini-pulse">
+            Exercices - Dialogue
+        </h2>
+         -->
+
+         <div class="ia-buttons">
+            <a href="{{ url_for('mon_dashboard') }}" class="button-link">
+              <span class="btn-text">Mon suivi</span>
+              <span class="btn-icon">🏠</span>
+            </a>
+            <a href="{{ url_for('logout') }}" class="button-link logout">
+              <span class="btn-text">Déconnexion</span>
+              <span class="btn-icon">🔓</span>
+            </a>
+          </div>
+
+
+          
+
+
+        <div id="conversation" class="conversation-box">
+            <p><strong>Assistant :</strong>{{ initial_message | safe }}</p>
+        </div>
+
+
+
+
+
+        <!-- autre chargements icone 
+
+            <div id="loader" class="hidden">
+            <div class="dot-loader">
+                <span></span><span></span><span></span>
+            </div>
+            </div>
+
+        
+        <div id="loader" class="hidden">
+            <div class="spinner"></div>
+        </div>
+        -->
+
+
+
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Entrez votre commande ici...">
+            <button onclick="sendMessage()">Envoyer</button>
+        </div>
+
+        <div id="loader" class="hidden">
+            <div class="dot-loader">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='js/ia_interface.js') }}"></script>
+    
+
+
+      
+    <footer class="footer-style">
+
+        <div class="footer-small" >
+            Assistant IA © 2025 – M.DUPUIS - MIT
+        </div>
+
+          
+      <div class="footer-open">
+        Ce site utilise l’API OpenAI (GPT-4.1).
+        <a href="https://openai.com" target="_blank" class="margin-left-5">
+            <img src="/static/img/openai.svg"
+                 alt="Logo OpenAI" title="Propulsé par OpenAI"
+                 class="openai-logo">
+        </a>
+    </div>
+
+
+</footer>
+</body>
+</html>
