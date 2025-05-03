@@ -22,8 +22,8 @@ from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-MODEL_CORRECTION = "gpt-4o"
-MODEL_FEEDBACK   = "gpt-4o"
+MODEL_CORRECTION = "gpt-4.1"
+MODEL_FEEDBACK   = "gpt-4.1"
 
 def call_llm(messages, user_id=None, model="gpt-4o", temperature=0.5):
     """
@@ -60,7 +60,7 @@ def correction_et_explication(messages, user_id):
     Returns:
         str: Réponse générée par l'IA
     """
-    return call_llm(messages, user_id=user_id, model=MODEL_CORRECTION, temperature=0.3)
+    return call_llm(messages, user_id=user_id, model=MODEL_CORRECTION)
 
 def feedback_final(messages, user_id):
     """
@@ -75,7 +75,7 @@ def feedback_final(messages, user_id):
     Returns:
         str: Feedback final
     """
-    return call_llm(messages, user_id=user_id, model=MODEL_FEEDBACK, temperature=0.5)
+    return call_llm(messages, user_id=user_id, model=MODEL_FEEDBACK)
 
 
 def moderation_par_llm(user_input):
