@@ -443,7 +443,6 @@ def moderation(user_msg, reply: str) -> dict:
     Appelle l’endpoint OpenAI Moderation, sauvegarde des logs et renvoie un boolean
     indiquant si la conversation doit être bloquée.
     """
-    return {"blocked": False}  # Contenu autorisé (pas de moderation en test)
     full_conversation = user_msg+reply
     flags = moderate_API(full_conversation)
     # Vérification de l'erreur d'API
