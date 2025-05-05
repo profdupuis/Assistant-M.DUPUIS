@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord – Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <!-- (Optionnel) -->
+  <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+</head>
+<body>
+  <div class="dashboard-container">
+
+
+  <h1>📁 Tableau de bord enseignant</h1>
+
+  <div class="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages[-1:] %} {# ➔ Ne prend que le dernier flash #}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+  
+  <form method="post" action="{{ url_for('activate_scenario') }}" class="scenario-action rgpd-form">
+    <fieldset>
+      <legend>🎛️ Activer un scénario</legend>
+      <label>Classe :
+        <select name="class_name">
+          {% for cl in all_classes %}
+          <option value="{{ cl }}">{{ cl }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Scénario :
+        <select name="scenario_id">
+          {% for s in all_scenarios %}
+          <option value="{{ s.id }}">
+            {{ s.class_name }} – {{ s.name }}{% if s.is_active %} ✅{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit">✅ Activer</button>
+    </fieldset>
+  </form>
+
+  <form method="post" action="{{ url_for('delete_scenario') }}" class="scenario-action rgpd-form">
+    <fieldset>
+      <legend>🗑️ Supprimer un scénario</legend>
+      <label>Scénario :
+        <select name="scenario_id">
+          {% for s in all_scenarios %}
+          <option value="{{ s.id }}" {% if s.is_active %}title="Scénario actuellement actif"{% endif %}>
+            {{ s.class_name }} – {{ s.name }}{% if s.is_active %} ⚠️ actif{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      <button type="submit" onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+    </fieldset>
+  </form>
+
+  <form method="post" enctype="multipart/form-data"
+        action="{{ url_for('upload_scenario') }}" class="scenario-action rgpd-form">
+    <fieldset>
+      <legend>📂 Importer un scénario (.txt)</legend>
+      <input type="file" name="fichier" accept=".txt" required>
+      <button type="submit">Importer</button>
+    </fieldset>
+  </form>
+
+
+  <form method="get" action="{{ url_for('dashboard_eleve') }}" class="scenario-action">
+    <fieldset>
+      <legend>📈 Analyser les résultats par élève</legend>
+      <p>Accéder à l'analyse détaillée des performances par classe, scénario et élève.</p>
+      <button type="submit">Voir le tableau</button>
+    </fieldset>
+  </form>
+
+  <form method="get" action="{{ url_for('dashboard_rgpd') }}" class="scenario-action">
+    <fieldset>
+      <legend>🛡️ Gérer les consentements RGPD</legend>
+      <p>Voir les consentements donnés par les élèves et gérer leur droit à l'effacement.</p>
+      <button type="submit">Accéder à la gestion RGPD</button>
+    </fieldset>
+  </form>
+ 
+
+
+  <div class="dashboard-footer">
+    <span>🔒 Connecté en tant qu’administrateur</span>
+
+    <a href="{{ url_for('admin_logout') }}">Se déconnecter</a>
+  </div>
+</div>
+</body>
+</html>
