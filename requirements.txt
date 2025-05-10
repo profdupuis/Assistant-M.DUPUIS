@@ -1,8 +1,0 @@
-Flask>=2.3
-Flask-Session>=0.4
-python-dotenv>=1.0
-openai>=1.14
-SQLAlchemy>=2.0
-psycopg[binary]
-pandas>=2.0        # pour import CSV
-weasyprint
