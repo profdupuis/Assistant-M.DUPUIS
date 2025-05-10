@@ -1,0 +1,31 @@
+
+/* ✅ Adaptations PWA iOS avec +20px de sécurité visuelle */
+
+body.pwa-installed .mobile-action-bar {
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  height: calc(100px + env(safe-area-inset-bottom, 0px));
+}
+
+body.pwa-installed #conversation {
+  padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px));
+}
+
+body.pwa-installed .mobile-loader {
+  bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+}
+
+
+body.pwa-installed #python-editor {
+  bottom: calc(150px + env(safe-area-inset-bottom, 20px)) !important;
+  z-index: 3000;
+}
+
+
+
+body.pwa-installed #userInputMobile {
+  margin-bottom: calc(35px + env(safe-area-inset-bottom, 0px));
+}
+
+body.pwa-installed .scroll-to-bottom-btn {
+  bottom: calc(8rem + env(safe-area-inset-bottom, 0px));
+}
