@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface IA</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <!-- (Optionnel) -->
+    <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="{{ url_for('static', filename='js/keyboard_detector.js') }}"></script>
+
+<!-- CSS CodeMirror -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+
+<!-- JS CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/sql/sql.min.js"></script>
+
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- adapdation css WPA -->
+    <script src="{{ url_for('static', filename='js/pwa_ui_adapt.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pwa_adapt.css') }}">
+
+</head>
+
+
+
+
+
+
+
+          
+<body>
+  
+  <div class="mobile-loader" id="dot-loader" style="display: none;">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+  
+
+
+                       <!-- Bloc éditeur Python caché par défaut -->
+                       <div id="python-editor" class="python-editor-zone" style="display: none;">
+                          <div class="mobile-toolbar">
+                            <a onclick="clearEditor()" class="mobile-icon" aria-label="Effacer le contenu">
+                              <img class="scenario-img" src="{{ url_for('static', filename='img/icon_clear.png') }}" alt="effacer">
+                            </a>
+                          </div>
+                        <textarea id="pythonEditorTextarea"></textarea>
+                      
+                    
+
+                      
+                      </div>
+
+
+                
+            <!-- Barre mobile flottante -->
+            <div class="mobile-action-bar" id="mobile-bar">
+
+
+
+
+
+
+
+
+
+              <!-- Ligne du champ de saisie -->
+              <div class="mobile-bar-input">
+
+                <a onclick="toggleEditeur(lastUsedLang)" class="mobile-icon" aria-label="Éditeur">
+                  <img id="lang-icon" class="scenario-img" src="{{ url_for('static', filename='img/icon_python.png') }}" alt="Python">
+                </a>
+                 <input type="text" id="userInputMobile" placeholder="Ecrire ici .. " /> 
+               <!-- <textarea id="userInputMobile" rows="1" placeholder="Écrire ici .."></textarea>-->
+                <button
+                class="send-btn"
+                onclick="sendMessageMobile()"
+                aria-label="Envoyer"
+                disabled
+              >
+              <img class="scenario-img" src="{{ url_for('static', filename='img/icon_send.png') }}" alt="send">
+              </button>
+              </div>
+
+
+                      
+
+  
+              <!-- Ligne des icônes 
+              <div class="mobile-bar-icons">
+
+
+
+                <a onclick="toggleEditeur(lastUsedLang)" class="mobile-icon" aria-label="Éditeur">
+                  <img id="lang-icon" class="scenario-img" src="{{ url_for('static', filename='img/icon_python.png') }}" alt="Python">
+                </a>
+                
+
+
+                
+              </div>
+
+              -->
+            </div>
+
+            
+  
+  <div class="mobile-header"> 
+    <a onclick="toggleHamburgerMenu()" class="mobile-icon burger-toggle" aria-label="Menu">
+      <img class="scenario-img" src="/static/img/icon_burger.png" alt="Menu">
+    </a>💬 {{ scenario_matiere }} — {{ scenario_nom }}{% if fiche_terminee %} <span title="Fiche complétée">✔</span>{% endif %}
+   </div>
+
+
+
+        
+      
+ 
+
+        <div id="conversation" class="conversation-box">
+          <div class="message assistant" data-message-id="initial-static">
+            <div class="bubble" data-tex="{{ initial_message_text | e }}">{{ initial_message|safe }}</div>
+          </div>          
+        </div>
+
+
+
+
+
+
+        <div class="input-container input-desktop">
+            <input type="text" id="userInput" placeholder="Entrez votre commande ici...">
+            <button onclick="sendMessage()">Envoyer</button>
+        </div> 
+
+        <div id="loader" class="hidden loader-deskto">
+            <div class="dot-loader">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        
+        
+    
+
+
+    <button id="scrollToBottomBtn" class="scroll-to-bottom-btn" aria-label="Aller en bas">↓</button>
+
+    
+
+ 
+
+
+    <div id="infoModale" class="modal-overlay" style="display: none;">
+      <div class="modal-box">
+        <h3>ℹ️ À propos</h3>
+        <p>Réactions sous les bulles :</p>
+        <ul>
+          <li>🐍 pour copier le code de la bulle dans l'editeur (python ou SQL)</li>
+          <li>❓ pour demander d'expliquer</li>
+          <li>🚩 pour alerter sur une réponse inadaptée</li>
+          <li>⬇️ pour télécharger la discussion en pdf (ou .txt si non disponible sur le serveur) - en cours de développement le rendu n'est pas encore convainquant</li>
+          
+        </ul>
+          <p>Outils :</p>
+        <ul>
+          <li>🐍 Editeur de code (python, SQL)</li>
+
+        </ul>
+        <button onclick="fermerModaleInfos()">Fermer</button>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+   <div id="hamburgerMenu" class="hamburger-menu">
+  <div class="menu-content">
+
+<div class="accordion-section">
+  <button class="accordion-toggle"><a href="{{ url_for('mon_dashboard') }}"><img class="scenario-img" src="{{ url_for('static', filename='img/icon_home.png') }}" alt="Home"> Dashboard</a></button>
+</div>
+
+
+<!-- Accordéon facultatif pour les options avancées -->
+<div class="accordion-section">
+  <button class="accordion-toggle"><img class="scenario-img" src="{{ url_for('static', filename='img/icon_lang.png') }}" alt="Langages"> Langage</button>
+  <div class="accordion-panel">
+<button onclick="changerLangageEditeur('python')" class="lang-button" id="btn-lang-python"><img id="lang-icon" class="scenario-img" src="{{ url_for('static', filename='img/icon_python.png') }}" alt="Python"> Python</button>
+<button onclick="changerLangageEditeur('sql')" class="lang-button" id="btn-lang-sql"><img id="lang-icon" class="scenario-img" src="{{ url_for('static', filename='img/icon_sql.png') }}" alt="Python"> SQL</button>
+
+  </div>
+</div>
+
+<div class="accordion-section">
+  <button class="accordion-toggle" onclick="ouvrirModaleInfos()" ><img class="scenario-img" src="{{ url_for('static', filename='img/icon_info.png') }}" alt="Infos"> Infos</button>
+</div>
+
+
+  {% set seen = [] %}
+{% set filtered = [] %}
+{% for sc in last_scenarios %}
+  {% if sc.matiere not in seen %}
+    {% set _ = seen.append(sc.matiere) %}
+    {% set _ = filtered.append(sc) %}
+  {% endif %}
+{% endfor %}
+<div class="accordion-section">
+  <button class="accordion-toggle">
+    <img class="scenario-img" src="{{ url_for('static', filename='img/icon_scenario.png') }}" alt="Fiches">
+    Dernières fiches
+  </button>
+  <div class="accordion-panel">
+
+    {% if filtered %}
+      {% for sc in filtered %}
+        <form method="post" action="{{ url_for('changer_scenario_ia') }}">
+          <input type="hidden" name="matiere" value="{{ sc.matiere }}">
+          <button class="lang-button" name="nouveau_scenario" value="{{ sc.id }}" onclick="fermerHamburgerEtAccordeon()">
+            <img class="scenario-img" src="{{ url_for('static', filename='img/icon_' ~ sc.matiere|lower ~ '.png') }}"
+                 alt="{{ sc.matiere }}"> {{ sc.matiere }} – {{ sc.name }}{% if sc.id == active_scenario_id %} ☑️{% endif %}
+          </button>
+        </form>
+      {% endfor %}
+    {% else %}
+      <div style="font-style: italic; opacity: 0.7; padding: 0.5rem;">
+        ✔ Aucune nouvelle fiche.
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+
+
+<div class="accordion-section">
+  <button class="accordion-toggle"><img class="scenario-img" src="{{ url_for('static', filename='img/icon_param.png') }}" alt="param"> Autres</button>
+  <div class="accordion-panel">
+
+    <button onclick="ouvrirModaleInfos()" class="lang-button">
+      <img class="scenario-img" src="{{ url_for('static', filename='img/icon_info.png') }}" alt="Infos"> Infos
+    </button>
+
+    <button onclick="telechargerConversation()" class="lang-button">
+      <img class="scenario-img" src="{{ url_for('static', filename='img/icon_save.png') }}" alt="Sauvegarde"> Télécharger
+    </button>
+
+        <button class="lang-button">
+      <img class="scenario-img" src="{{ url_for('static', filename='img/icon_sombre.png') }}" alt="Sauvegarde"> Mode sombre (en dev)
+    </button>
+
+            <button class="lang-button">
+      <img class="scenario-img" src="{{ url_for('static', filename='img/icon_libre.png') }}" alt="Sauvegarde"> Mode libre mais llm cadré (en dev)
+    </button>
+
+
+  </div>
+</div>
+
+
+
+
+<div class="accordion-section">
+  <button class="accordion-toggle"><a href="{{ url_for('logout') }}"><img class="scenario-img" src="{{ url_for('static', filename='img/icon_lock.png') }}" alt="Déconnexion"> Déconnexion</a></button>
+</div>
+
+
+  </div>
+   </div>
+
+
+
+    <script src="{{ url_for('static', filename='js/python_editor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ia_interface.js') }}?v=20240507"></script>
+</body>
+</html>
