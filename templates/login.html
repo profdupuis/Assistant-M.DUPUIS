@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Sécurisé</title>
+    <link rel="stylesheet" href="/static/css/style_login.css">
+    <script src="{{ url_for('static', filename='js/modal-rgpd.js') }}"></script>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <!-- (Optionnel) -->
+    <link rel="icon" href="/static/img/favicon-32.png" type="image/png" sizes="32x32">
+    <script src="{{ url_for('static', filename='js/keyboard_detector.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/register_sw.js') }}"></script>
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="theme-color" content="#000000">
+
+    <!-- iOS Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icon_ios_180.png') }}">
+
+    <!-- adapdation css WPA -->
+    <script src="{{ url_for('static', filename='js/pwa_ui_adapt.js') }}"></script>
+
+
+
+
+</head>
+
+
+<body class="{{ 'show-rgpd-modal' if consent_pending else '' }}">
+
+
+
+  <!-- ⏳ Loader PWA visible uniquement en plein écran -->
+<div id="pwa-loader" class="pwa-loader hidden">
+  <div class="pwa-spinner"></div>
+</div>
+
+
+
+
+
+    <div class="container-login">
+        <h2> 🔒 Connexion Assistant Beta</h2>
+        <form method="POST">
+            <input type="text" name="id" placeholder="Identifiant élève">
+            <button type="submit">Connexion</button>
+        </form>
+        {% if error %}<p class="error-message">{{ error }}</p>{% endif %}
+    <p> <img src="/static/img/hydra.png" class="logo-ia" alt="Logo IA"></p>
+    </div>
+
+
+
+    <footer class="footer-style">
+
+            <div class="footer-small" >
+                Assistant IA © 2025 – M.DUPUIS - MIT
+            </div>
+
+        <div id="rgpd-modal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <h3>Mentions légales – RGPD</h3>
+              <p>
+                Ce site pédagogique utilise l’API OpenAI (GPT-4.1) pour guider les élèves dans des activités encadrées.<br><br>
+                Les échanges sont modérés automatiquement. Les données (identifiant anonyme, questions, réponses) sont conservées pendant 30 jours maximum, puis supprimées.<br><br>
+                Un export sécurisé est effectué toutes les deux semaines et archivé hors ligne.<br><br>
+                Vous pouvez exercer votre droit à l’effacement à tout moment en contactant M. DUPUIS.
+              </p>
+
+                      <!-- Formulaire d'acceptation RGPD -->
+<!-- Formulaire d'acceptation RGPD -->
+<div id="consent-form">
+    <form method="POST" action="{{ url_for('handle_consent_route') }}">
+      <input type="hidden" name="id" value="{{ session['student_id'] }}">
+      <input type="checkbox" name="consent" id="consent" required>
+      <label for="consent">J'accepte les mentions légales RGPD.</label><br>
+      <button type="submit">Valider</button>
+    </form>
+  </div>
+        
+            </div>
+          </div>
+
+          <div class="footer-rgpd">
+            <a href="#" id="open-rgpd" class="rgpd-link">
+
+                🔐 Mentions RGPD
+            </a>
+          </div>      
+              
+          <div class="footer-open">
+            Ce site utilise l’API OpenAI (GPT-4.1).
+            <a href="https://openai.com" target="_blank" class="margin-left-5">
+                <img src="/static/img/openai.svg"
+                     alt="Logo OpenAI" title="Propulsé par OpenAI"
+                     class="openai-logo">
+            </a>
+        </div>
+    </footer>
+
+<!-- Formulaire d'acceptation RGPD 
+<div class="pwa-install-banner" id="installPwaSection" style="display: none; text-align: center; margin-top: 1.5rem;">
+  <button class="install-button" onclick="installerPwa()">
+    <img src="{{ url_for('static', filename='img/icon_savewpa.png') }}" alt="Installer" class="install-icon">
+    Installer l'application
+  </button>
+</div>-->
+
+
+
+    <script src="{{ url_for('static', filename='js/install_pwa.js') }}"></script>
+      
+</body>
+</html>
