@@ -1,0 +1,2680 @@
+body {
+    background-color: rgb(213, 218, 230);
+    color: black;
+    font-family: Consolas, monospace;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+body {
+
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #333333;
+  }
+
+body, .container, .conversation-box, .bubble, input[type="text"], button {
+  font-family: "Segoe UI", Roboto, sans-serif !important;
+  font-size: 1rem !important; /* ou 16px selon préférence */
+  color: #333 !important;
+}
+footer {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.footer-style {
+    text-align: center;
+    margin-top: 0px;
+    font-size: 1em;
+    color: black;
+  }
+  .footer-rgpd {
+    margin-top: 0.5em;
+  }
+
+.footer-open {
+    font-size: 0.7em; 
+    opacity: 0.8; 
+    margin-top: 0.5em;
+  }
+
+  .rgpd-link {
+    color: #000000;
+    font-size: 0.85em;
+    text-decoration: none;
+  }
+  
+  .openai-logo {
+    height: 30px;
+    vertical-align: middle;
+  }
+  
+ /* Logo : dégradé déjà inclus dans le SVG            */
+/* Halo animé au survol (ou en continu si tu préfères) */
+.logo-ia{
+    max-width:300px;           /* même taille qu’avant */
+    transition: filter 0.4s ease;
+    filter: drop-shadow(0 0 4px #3da8ff80);
+}
+
+/* animation continue ► décommenter si tu la veux en permanence */
+/* .logo-ia{
+    animation: pulse 3s ease-in-out infinite;
+} */
+
+.logo-ia{
+    animation: pulse 3s ease-in-out infinite;
+}
+  
+.logo-mini-pulse {
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 8px;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+.ia-buttons {
+  display: flex;
+  justify-content: space-between; /* Espacement égal entre les éléments */
+  align-items: center; /* Centrer verticalement les éléments */
+  padding: 10px 0; /* Espace autour des boutons */
+}
+
+
+
+  
+.container-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 0 0 15px rgb(215, 216, 215);
+}
+
+
+@media (min-width: 769px) {
+  .container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid white;
+    padding: 15px;
+    box-shadow: 0 0 15px rgb(215, 216, 215);
+    align-items: center;
+  }
+}
+input[type=text], button {
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.input-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.input-container input[type="text"] {
+    flex: 1;
+    font-family: Consolas, monospace;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.input-container button {
+    width: 100px;
+    font-family: Consolas, monospace;
+}
+
+.titre-centre {
+    text-align: center;
+}
+
+
+
+
+
+.footer-small {
+    font-size: 0.95em;
+    font-weight: normal;
+  }
+
+  
+
+
+/* Pour les navigateurs WebKit (Chrome, Edge, Safari) */
+#conversation::-webkit-scrollbar {
+    width: 10px;
+}
+#conversation::-webkit-scrollbar-thumb {
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+}
+#conversation::-webkit-scrollbar-track {
+    background: #000;
+}
+
+
+  
+
+form {
+    display: flex;
+    flex-direction: row; /* disposition par défaut */
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.rapport-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* espace horizontal entre les boutons */
+  margin-top: 1rem;
+}
+
+.rapport-buttons form {
+  margin: 0; /* Pas de marge inutile entre les formulaires */
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+
+
+@keyframes pulse{
+    0%,100%{ filter: drop-shadow(0 0 4px #3da8ff80); }
+    50%   { filter: drop-shadow(0 0 14px #3da8ff);   }
+}
+
+/* --------------- Chargement IA Attente ---------------------- */
+
+
+#loader {
+  text-align: center;
+  min-height: 25px; /* réserve l’espace pour loader */
+  margin-top: 10px;
+}
+
+#loader.hidden {
+  visibility: hidden;
+}
+
+#loader.hidden {
+  visibility: hidden;
+  height: 25px; /* ou la hauteur exacte de ton dot loader */
+}
+
+#loader {
+    text-align: center;
+    min-height: 25px; /* et PAS height ! */
+
+}
+
+.dot-loader {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+}
+
+.dot-loader span {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: rgb(107, 161, 241);
+    border-radius: 50%;
+    opacity: 0;
+    animation: dots 1.5s infinite;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+
+
+.dot-loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes dots {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+
+/* zzzzzzzzzzzzzzzzzzzzzzzzzzzz */
+
+
+
+
+
+
+.margin-left-5 {
+    margin-left: 5px;
+  }
+  
+ 
+
+  .button-link {
+    background-color: #5f5756;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  .button-link:hover {
+    background-color: #696d69;
+  }
+  
+  .button-link.logout {
+    background-color: #5f5756;
+  }
+  .button-link.logout:hover {
+    background-color: #a34242;
+  }
+  
+  .dashboard-buttons {
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  
+
+/* zzzzzzzzzzzzzzzzzzzzzzzzzzzz */
+
+
+
+
+
+/* Logo : dégradé déjà inclus dans le SVG            */
+
+/* Responsive */
+
+/* pour désactiver les animations chez les personnes sensibles :*/
+@media (prefers-reduced-motion: reduce){
+    .logo-ia{animation:none !important;filter:none !important;}
+}
+
+
+
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 18px; /* Agrandit tout le texte par défaut */
+        padding: 10px; /* Réduit le padding pour éviter le décalage */
+        align-items: center;
+    }
+    .container {
+      width: 90%;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    .container-login {
+        width: 90%;
+        font-size: 15px;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+    input[type="text"] {
+      width: 100%;
+      font-size: 18px;
+    }
+
+
+    .editor-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .code-container,
+    .mission-box {
+        width: 90%;
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    .code-container {
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+
+
+    .console-output {
+        font-size: 16px;
+    }
+
+    .editor-section {
+            flex-direction: column-reverse;
+       }
+
+    #editor,
+    #result {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            display: block;
+            text-align: left;
+        }
+
+
+        /* bouton executer */
+.bouton-centre {
+    text-align: center;
+    margin: 20px auto;
+    width: 100%;
+}
+
+.bouton-centre button {
+    margin: 0 auto;
+}
+
+
+/* avant code */
+    pre {
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input[type="text"], button {
+    width: 90%;
+    max-width:300px;
+  }
+
+
+
+button {
+    width: 120px;
+    font-size: 14px;
+    padding: 6px 10px;
+}
+
+
+    /* . Halo un peu moins fort                   */
+    /* → on crée une variante d’animation          */
+    @keyframes pulse-mobile{
+        0%,100%{ filter: drop-shadow(0 0 4px #3da8ff80); }
+        50%   { filter: drop-shadow(0 0 10px #3da8ff);   }
+    }
+    /* Et on l’applique en écrasant l’animation par défaut */
+    .logo-ia{
+        max-width: 300px;
+        animation: pulse-mobile 2s ease-in-out infinite;
+    }
+
+    .footer-small {
+        font-size: 0.85em;
+      }
+
+
+
+
+  }
+
+
+
+
+
+  /* Barre flottante mobile */
+
+
+@media (max-width: 768px) {
+  .mobile-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-around;
+    z-index: 999;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+  }
+
+  .mobile-action-bar .mobile-button {
+    font-size: 1.5rem;
+    background: #7c8bcf;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+
+  .mobile-action-bar .mobile-button.logout {
+    background: #c5655e;
+  }
+
+  /* Masquer les boutons classiques en haut */
+  .ia-buttons {
+    display: none;
+  }
+
+  .mobile-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+  }
+
+  
+}
+
+
+
+
+/* Responsive pour les textes/icones dans les boutons standards */
+.btn-text {
+  display: inline;
+}
+
+.btn-icon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .btn-text {
+    display: none;
+  }
+  .btn-icon {
+    display: inline;
+    font-size: 1.3em;
+  }
+}
+
+
+
+.mobile-loader {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-loader .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out both;
+}
+
+.mobile-loader .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.mobile-loader .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+.mobile-loader .dot:nth-child(3) {
+  animation-delay: 0;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  } 40% {
+    transform: scale(1);
+  }
+}
+
+
+
+
+.mobile-action-bar .mobile-button {
+  font-size: 1.5rem;
+  background: #7c8bcf;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.mobile-action-bar .mobile-button.logout {
+  background: #c5655e;
+}
+
+.mobile-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  gap: 5px;
+}
+
+.mobile-loader .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4e8cf5;
+  border-radius: 50%;
+  animation: dotFade 1.4s infinite ease-in-out both;
+}
+
+.mobile-loader .dot:nth-child(1) { animation-delay: -0.32s; }
+.mobile-loader .dot:nth-child(2) { animation-delay: -0.16s; }
+.mobile-loader .dot:nth-child(3) { animation-delay: 0; }
+
+@keyframes dotFade {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.2;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+
+
+
+@media(max-width:768px){
+  .matiere-form,
+  #scenario-form-mobile{
+    width:3.6rem;   /* même gabarit que tes icônes */
+    position: relative;
+  }
+  .matiere-select,
+  .scenario-select-mobile{
+    position:absolute;
+    inset:0;
+    opacity:0;       /* invisible mais cliquable */
+    cursor:pointer;
+  }
+  #scenario-form-mobile{ width:65vw; }  /* laisse de la place au label */
+}
+
+
+/* barre mobile */
+
+@media screen and (max-width: 768px) {
+  /* Barre fixe */
+  .mobile-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0.5rem;
+    z-index: 1000;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    backdrop-filter: blur(5px);
+  }
+
+  /* Icône simple (🏠, 🔓) */
+  .mobile-icon {
+    font-size: 1.6rem;
+    color: #333;
+    text-decoration: none;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Select = bouton rond emoji */
+  .mobile-icon-select {
+    appearance: none;
+    border: none;
+    background: none;
+    color: transparent;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    margin: 0;
+    font-size: 1.6rem;
+    position: relative;
+  }
+
+  .mobile-icon-select option {
+    color: #000;
+    font-size: 1rem;
+  }
+
+  /* Icône visible sur le select */
+  .mobile-icon-select::after {
+    content: attr(data-icon);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    color: #333;
+    /*pointer-events: none;*/
+  }
+
+  /* Ajoute de l'espace en bas */
+  .dashboard-container {
+    padding-bottom: 90px;
+  }
+
+  /* Cache la barre desktop */
+  .dashboard-buttons,
+  .button-link.logout {
+    display: none !important;
+  }
+}
+.matiere-wrapper {
+  position: relative;
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.matiere-icon {
+  position: absolute;
+  font-size: 1.6rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 2.6rem;
+  /*pointer-events: none;*/
+  z-index: 1;
+}
+
+.matiere-select {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+}
+
+
+
+
+
+/* ——— Désactive l’opacité et élargit la liste ——— */
+#scenario-options {
+  opacity: 1 !important;      /* visible */
+  width: 80vw;                /* ou 100% si tu préfères */
+  left: 50%;                  /* pour la centrer un peu */
+  transform: translateX(-50%);
+  cursor: default;            /* pointeur normal */
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+
+
+.scenario-wrapper {
+  position: relative;
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.scenario-icon {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 2.6rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  text-align: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.scenario-select {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0.01;         
+  z-index: 2;
+  pointer-events: auto;    /* ✅ autorise le clic sur un élément invisible */
+  cursor: pointer;       /* ✅ montre que c’est cliquable */
+}
+.scenario-choice {
+  font-size: 1rem;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  margin: 0.3rem 0;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+#scenario-options {
+  display: none;
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+
+
+
+/* —— correctifs barre mobile —— */
+#scenario-options {
+  display: none;                /* caché par défaut, JS passera à block */
+  position: fixed;              /* se place par-dessus la page entière */
+  left: 50%; transform: translateX(-50%);
+  top: 25%;                     /* à adapter */
+  width: 80vw; max-width: 22rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15);
+  opacity: 1 !important;        /* 🔑 on annule l’opacité héritée */
+  z-index: 1200;                /* au-dessus de la barre */
+  overflow-y: auto;
+}
+
+.scenario-select {              /* classe partagée */
+  opacity: 1 !important;        /* idem, pour tout élément cloné */
+  cursor: pointer;
+}
+/* --- icône dossier + select invisible --- */
+.scenario-wrapper{position:relative;width:2.6rem;height:2.6rem;}
+.scenario-emoji{
+  position:absolute;inset:0;
+  font-size:1.6rem;line-height:2.6rem;text-align:center;
+  pointer-events:none;z-index:1;
+}
+.scenario-select-mobile{
+  position:absolute;inset:0;
+  opacity:0;cursor:pointer;z-index:2; /* clique passe dans le select */
+}
+
+/* on neutralise l’ancienne largeur énorme */
+#scenario-form-mobile{width:auto!important;}
+
+
+/* place et dimensionne le span d’emoji matière exactement comme les autres */
+#matiere-emoji{
+  position:absolute;          /* même logique que .scenario-emoji          */
+  inset:0;
+  font-size:1.6rem;
+  line-height:2.6rem;
+  text-align:center;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* si tu préfères sans classe supplémentaire */
+#matiere-emoji{
+  position:absolute;inset:0;
+  font-size:1.6rem;line-height:2.6rem;text-align:center;
+  pointer-events:none;z-index:1;
+}
+
+
+.filtre-row{
+  display:flex;
+  gap:1rem;
+  align-items:flex-end; /* le <select> fiche descend au même niveau */
+}
+.matiere-select.desktop{
+  position:static;
+  opacity:1;
+  font-size:0.9rem;
+  padding:0.25rem 0.6rem;
+}
+.filtre-row select{
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:#fdfdfd;
+}
+
+/* ─── uniformiser les deux <select> sur écran ≥ 769 px ─── */
+@media (min-width: 769px){
+  .filtre-row select{
+    font-size: 0.9rem;      /* même corps de texte */
+    padding: 0.30rem 0.6rem;/* même padding vertical & horizontal      */
+    height: 2.2rem;         /* hauteur identique pour les deux menus   */
+    line-height: 1.2rem;    /* aligne le texte au milieu               */
+    box-sizing: border-box; /* prend en compte border + padding        */
+  }
+}
+
+
+/* — matière icones tel — */
+.matiere-wrapper{
+  position:relative;
+  width:3.6rem;                     /* ⬆︎ ancien 2 .6 rem */
+  height:3.6rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.matiere-img{
+  width:100%;                        /* ⬆︎ ancien 100 %/95 % */
+  height:100%;
+  object-fit:contain;
+
+  background: transparent;
+}
+
+
+/* — scénario icone tel — */
+.scenario-wrapper{
+  position:relative;
+  width:3.6rem;      /* même taille que matière, pour l’alignement */
+  height:3.6rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.scenario-img{
+  width:100%;         /* laisse un peu d’air */
+  height:100%;
+  object-fit:contain;
+
+  background: transparent;
+}
+
+/* le formulaire qui entoure le bouton scénarios */
+#scenario-form-mobile{
+  width:3.6rem !important;   /* même gabarit que .scenario-wrapper */
+}
+
+
+/* — harmonisation de la barre mobile IA / Dashboard — */
+@media screen and (max-device-width: 768px) {
+  :root{
+    --bar-icon: 2.6rem;           /* taille unique */
+  }
+
+  /* icônes simples (🏠, 🔓) */
+  .mobile-icon{
+    width: var(--bar-icon);
+    height: var(--bar-icon);
+    font-size: calc(var(--bar-icon) * .62);   /* 1.6rem → 3.6 rem */
+  }
+
+  /* images PNG */
+  .mobile-icon img,
+  .scenario-img,
+  .matiere-img{
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+}
+
+
+
+
+
+
+
+
+.mobile-icon:active{transform:scale(.9);}
+
+
+
+
+
+
+
+:root {
+  --header-h: 0px;  /* mis à jour en JS */
+  --bar-h   : 0px;
+}
+/* — interface ia  */
+
+@media screen and (max-device-width: 768px) {
+
+
+
+.mobile-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #ccc;
+  z-index: 999;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;   /* arrondis  */
+}
+
+
+
+/* Ligne icônes */
+.mobile-bar-icons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mobile-loader .dot {
+  width: 12px;
+  height: 12px;
+  background-color: #333;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out both;
+  margin: 0 2px;
+}
+
+.mobile-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+  .loader-desktop {
+    display: none !important;
+  }
+  .mobile-loader {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    pointer-events: none;
+    height: 1rem;
+    top: -1.4rem; /* place au-dessus si tu veux qu’il flotte */
+  }
+  
+
+
+  .loader-desktop {
+    display: block;
+  }
+  .input-desktop {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .input-desktop {
+    display: none !important;
+  }
+
+  .mobile-header {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    box-sizing: border-box;
+    padding: 
+      /* haut = safe-area (notch) + 0.5rem */
+      calc(env(safe-area-inset-top) + 0.5rem) 
+      /* droite = 0.75rem */ 0.75rem 
+      /* bas = 0.5rem */ 0.5rem 
+      /* gauche = 0.75rem */ 0.75rem;
+    background: #fff;
+    z-index: 1000;
+    border-bottom: 1px solid #ddd;
+  }
+    /* Header fixe en haut */
+
+
+
+
+    .mobile-header{
+      text-align: center;
+      position:fixed;
+      top:0; left:0; right:0;
+      background:#fff;
+      font-weight:bold;
+      padding:.9rem .6rem calc(.9rem + env(safe-area-inset-top));
+      border-bottom:1px solid #ddd;
+      z-index:1000;
+      /* PAS de height ici ➜ la hauteur réelle = contenu + padding */
+      box-sizing:border-box;
+    }
+    .conversation-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-top   : var(--header-h);   /* espace sous le header */
+      /* on retire le padding-bottom CSS, on fera avec le JS */
+      padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom) + 6rem);
+    }
+/* ou, si tu préfères un pseudo-élément : */
+.conversation-box::after {
+  content: "";
+  display: block;
+  height: 2rem;    /* l’équivalent de ~2 lignes de texte */
+}
+    .conversation-box > *:first-child {
+  margin-top: 0.5rem;
+}
+    .titre-centre {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+
+
+
+    #conversation {
+      height: auto !important;
+      max-height: none !important;
+      flex: 1;
+    }
+    html, body {
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* ✅ bloque le scroll du body */
+      background: #ffffff;
+    }
+    
+
+    
+    
+
+
+
+}
+
+
+
+
+/* ── OVERRIDES POUR MOBILE ── */
+@media screen and (max-device-width: 768px) {
+  /* on empêche le body de scroller */
+  html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  /* ton container englobe header + conversation + barre du bas */
+  .container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* header mobile inchangé (fixed) */
+  .mobile-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    /* tes paddings notch + intérieur */
+
+    background: #fff;
+
+    z-index: 1000;
+    box-sizing: border-box;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;   /* arrondis  */
+  }
+
+  /* barre du bas mobile inchangée (fixed) */
+  .mobile-action-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.5rem 1rem;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+
+  /* LA boîte de conversation devient FIXÉE entre header et footer */
+  #conversation, .conversation-box {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top) + 3.5rem) !important;    /* 3.5rem ≃ hauteur header */
+    bottom: calc(env(safe-area-inset-bottom) + 7rem) !important; /* 5rem ≃ hauteur barre du bas + petite marge */
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    background-color: rgb(255, 255, 255);
+  }
+
+
+
+
+.mobile-bar-input button.send-btn {
+  opacity: 0.4;                  /* désactivé visuellement */
+  transition: opacity 0.2s;
+}
+.mobile-bar-input button.send-btn:enabled {
+  opacity: 1;                    /* activé dès qu’il y a du texte */
+}
+
+.send-icon {
+  width: 1.5rem;   /* largeur désirée */
+  height: 1.5rem;  /* hauteur désirée (ou auto) */
+  object-fit: contain; /* garde les proportions */
+}
+
+
+
+
+/* ——————————————— */
+/* Faire remplir la ligne input */
+/* ——————————————— */
+.mobile-bar-input {
+  /* prend toute la largeur dispo dans la barre */
+  width: 95%;
+  max-width: 640px;
+  margin: 0 auto;
+  /* si tu veux un peu d’air sur les côtés : */
+  justify-content: center; /* centre horizontalement */
+  box-sizing: border-box;
+  display: flex;
+  gap: 0.4rem;
+}
+
+/*
+.mobile-bar-input input {
+  flex: 1;
+  font-size: 1rem;
+  border: 1px solid #b4b3b3;
+  border-radius: 2rem; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  background-color: #f7f7f7;
+  
+}
+*/
+.mobile-bar-input input {
+  flex: 1;
+
+  font-size: 1rem;
+  border: none ;             /* ou none ❌ plus de bordure  1px solid #b4b3b3 */
+  border-radius: 0;          /* ❌ plus de coin arrondi (ou garde si tu veux) */
+  box-shadow: none;          /* ❌ plus d’ombre */
+  background-color: transparent; /* ✅ fond neutre */
+  outline: none;             /* ❌ pas de contour bleu au focus */
+  color: inherit;            /* ✅ hérite du texte normal */
+}
+
+/* 1) On neutralise totalement le style du bouton 
+.mobile-bar-input button.send-btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+*/
+  /* 1) Supprime le padding horizontal de la barre fixe */
+.mobile-action-bar {
+  padding: 0.5rem 0 !important;
+}
+
+/* 2) Fais en sorte que l’input prenne 100% de la largeur restante */
+.mobile-bar-input input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.mobile-bar-input .mobile-icon,
+.mobile-bar-input .send-btn {
+  padding: 0 0.5rem;
+}
+
+
+/*  
+Si tu veux davantage d’espace entre la barre de saisie et les icônes “home/lock” juste en dessous, 
+augmente le gap sur .mobile-action-bar ou ajoute un margin-top: 0.5rem sur la .mobile-bar-input.
+*/
+/* 2) On donne juste la taille de l’icône, sans surplus */
+.mobile-bar-input button.send-btn .send-icon,
+.mobile-bar-input button.send-btn img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  display: block;
+}
+
+/* 3) (optionnel) si tu veux quand même un hit-area un peu plus grosse autour de l’icône */
+.mobile-bar-input button.send-btn {
+  padding: 0.25rem;  /* ou 0.5rem selon ton goût */
+}
+
+  /* 3) Input lui-même full-width */
+  .mobile-bar-input input {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
+/*
+  .mobile-bar-input {
+    width: 100% !important;
+    justify-content: flex-start !important; 
+    padding: 0.5 0.1rem !important;           
+    box-sizing: border-box !important;
+  }*/
+.mobile-bar input {
+  flex-grow: 1;
+  margin: 0 1rem;
+
+  padding-left: 0.3rem;  /* ✨ Réduit l'espace à gauche */
+  padding-right: 0.5rem; /* garde un peu d’air à droite */
+
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: #f9f9f9;
+  border-radius: 1rem;
+}
+  .mobile-bar-input input {
+    max-width: none !important;
+  }
+  .mobile-bar-input input {
+    flex: 1 1 auto !important;
+    width: 100%      !important;
+    box-sizing: border-box !important;
+  }
+
+  .send-btn {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 2rem;       /* ou ajuster */
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    gap:0.5rem;
+    margin-right: 2rem;
+  }
+  
+ 
+  .send-btn img {
+    width: 1.5rem;     /* taille de l’icône */
+    height: 1.5rem;
+    padding: 0.5rem;
+    display: block;
+
+    margin-right: 2rem;
+  }
+}
+
+
+  .send-btn.envoi-en-cours {
+    opacity: 0.4 !important;
+    pointer-events: none;
+  }
+
+
+
+
+/* —— Chat bubbles —— */
+.conversation-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* espace entre les messages */
+}
+
+/* container général d’un message */
+.conversation-box .message {
+  display: flex;
+  
+}
+
+/* bulle */
+.conversation-box .message .bubble {
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* ombres des bulles  */
+}
+
+/* bulles utilisateur à droite */
+.conversation-box .message.user {
+  justify-content: flex-end;
+}
+.conversation-box .message.user .bubble {
+  background-color: #d8e9ff;  /* vert WhatsApp-like */
+  color: #000;
+  border-bottom-right-radius: 0.2rem;
+  border-bottom-left-radius: 1rem;
+}
+
+/* bulles assistant à gauche */
+.conversation-box .message.assistant {
+  justify-content: flex-start;
+}
+.conversation-box .message.assistant .bubble {
+  background-color: #f1f0f0;
+  color: #000;
+  border-bottom-left-radius: 0.2rem;
+  border-bottom-right-radius: 1rem;
+}
+
+
+/* ─── Chat bubbles – consolidation final ─── */
+.conversation-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;               /* espace entre chaque message */
+  padding: 1rem;
+}
+
+.message .bubble {
+  position: relative;
+  display: inline-block;      /* s’adapte à la taille du contenu */
+  max-width: 75%;             /* jamais plus de 75% de la largeur */
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-break: break-word;      /* coupe les mots trop longs */
+  white-space: pre-wrap;       /* respecte retours à la ligne et espaces */
+  line-height: 1.4;
+}
+
+
+
+/* bulle utilisateur à droite */
+.message.user {
+  justify-content: flex-end;
+}
+.message.user .bubble {
+  background-color: #c6ddf8;
+  color: #000;
+  border-bottom-right-radius: 0.25rem;
+}
+
+/* bulle assistant à gauche */
+.message.assistant {
+  justify-content: flex-start;
+}
+.message.assistant .bubble {
+  background-color: #f1f0f0;
+  color: #000;
+  border-bottom-left-radius: 0.25rem;
+}
+
+
+/* ——————————————————————————————
+   CHEVAUCHEMENT DES RÉACTIONS SOUS LA BULLE
+   —————————————————————————————— */
+/* ─── 1. Container général ───────────────────────── */
+.conversation-box .message {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* plus de padding-bottom ici, on gère tout via border-radius */
+  padding-bottom: 0;
+  margin-bottom: 1.5rem; /* espace entre messages */
+}
+
+/* alignement assistant vs élève */
+.conversation-box .message.assistant {
+  align-items: flex-start;
+}
+.conversation-box .message.user {
+  align-items: flex-end;
+}
+
+/* ─── 2. La bulle (seulement angles supérieurs arrondis) ─── */
+.conversation-box .message .bubble {
+  max-width: 75%;
+  padding: 0.75rem 1rem;
+  background-color: #f1f0f0;
+  color: #000;
+  border-radius: 1rem 1rem 0 0;
+  word-break: break-word;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* ─── 3. Réactions (chevauchantes SOUS la bulle) ───────── */
+.conversation-box .message .reactions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  /* même fond que la bulle pour prolonger */
+  background-color: inherit;
+  /* bord inférieur arrondi uniquement */
+  border-radius: 0 0 0.75rem 0.75rem;
+  /* décalage vertical négatif pour chevaucher */
+  margin-top: -0.3rem;
+  /* légère ombre pour détacher */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+
+  z-index: 0; /* sous la bulle */
+  position: relative; /* reste dans le flow, sous la bulle */
+  padding: 0.3rem 0.6rem;
+}
+
+/* alignement horizontal de la zone de réactions */
+.conversation-box .message.assistant .reactions {
+  margin-left: 1rem;
+}
+.conversation-box .message.user .reactions {
+  margin-right: 1rem;
+}
+
+/* ─── 4. Boutons = emoji pur ──────────────────────────── */
+.reactions .react {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* on cache le compteur s’il existe */
+.reactions .count {
+  display: none;
+}
+
+
+/* OPTION A : groupé à droite */
+.reactions {
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  
+}
+
+
+
+
+/* ou, si tu préfères jouer sur les messages */
+.message {
+  margin-bottom: 1rem;     /* espace entre chaque message entier */
+}
+
+
+/* état initial : tout est gris */
+.reactions .react {
+  color: #888;             /* icône et texte gris */
+  transition: color 0.2s, background-color 0.2s;
+}
+.reactions .react {
+  filter: grayscale(100%);
+  opacity: 0.3 ;
+}
+.reactions .react.reported {
+  filter: none !important;          /* plus de gris */
+  color: #ff0000 !important;        /* ou la couleur que tu préfères */
+  opacity: 1 !important;
+  pointer-events: none;             /* plus de clic possible */
+}
+
+
+
+
+
+/* ── OVERRIDES POUR MOBILE ── */
+@media screen and (max-device-width: 768px) {
+/* ■ Container réactions : on aligne à gauche et on ne stretch pas */
+.reactions {
+  display: flex;
+  justify-content: flex-start; /* ou flex-end si tu veux coller à droite */
+  gap: 0.25rem;                /* espace minimal entre les icônes */
+  margin-top: 0.5rem;
+  padding-bottom: 0.5rem ;
+}
+
+/* espace supplémentaire sous les réactions 
+.reactions {
+  margin-bottom: 0.75rem;  
+}
+*/
+
+.message .bubble {
+
+  margin-top: 0.3rem;
+}
+
+
+
+
+
+/* ■ Chaque bouton ne grandit PAS, et ne prend que la place de son contenu */
+.reactions .react {
+  flex: none !important;          /* pas de grow ni de shrink */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem !important;     /* réduit un peu si besoin */
+  margin: 0 !important;
+  width: auto !important;
+  min-width: auto !important;
+  background-color:none !important; 
+  border: none;
+  cursor: pointer;
+}
+
+/* ■ Tu peux même retirer le radius si c’est trop gros */
+.reactions .react {
+  border-radius: 0.25rem !important;
+}
+
+.message {
+  margin-bottom: 1rem;     
+}
+
+}
+
+
+
+/* ─── Forcer le fond des boutons de réaction à coller à la bulle assistant ─── */
+/* a) on autorise le débordement au niveau du message */
+.message {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+
+/* c) on positionne les réactions en absolu, juste sous la bulle */
+/* c) on positionne les réactions en absolu, juste sous la bulle */
+/* c) on positionne les réactions en absolu, juste sous la bulle */
+/* c) on positionne les réactions en absolu, juste sous la bulle */
+/* c) on positionne les réactions en absolu, juste sous la bulle */
+.message .reactions {
+  position: absolute !important;
+  bottom: -1.5rem;       /* règle la valeur jusqu’à ce que la boîte rase juste le bas de la bulle */
+  left: 3rem;             /* ou calc(100% - X) pour coller à droite */
+
+}
+
+
+
+/* ── OVERRIDES POUR MOBILE ── */
+@media screen and (max-device-width: 768px) {
+
+/* 1) Empêcher le scroll horizontal */
+.conversation-box {
+  overflow-x: hidden;     /* plus de scroll latéral */
+}
+
+/* 2) Les bulles ne dépassent pas le conteneur */
+.message .bubble {
+  /* jamais plus large que 100% de la zone parent, 
+     moins le padding (ici on suppose 1rem de chaque côté) */
+  max-width: calc(100% - 2rem) !important;
+  /* ou plus simplement : */
+  /* max-width: 80% !important; */
+
+  /* on garde le wrapping et le box-sizing */
+  box-sizing: border-box;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* 3) Éventuel ajustement du conteneur pour prendre en compte son padding */
+.conversation-box {
+  box-sizing: border-box; /* pour que le padding ne fasse pas overflow */
+}
+
+/* permet à tout contenu de la bulle de se couper et de passer à la ligne */
+/* fait défiler horizontalement tout ce qui déborde */
+.message .bubble {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* pour un scroll bien fluide sur iOS */
+}
+
+/* sécurise la taille max de la bulle */
+.message .bubble {
+  max-width: calc(100% - 2rem);  /* ou 80% selon tes préférences */
+  box-sizing: border-box;
+}
+
+.message .reactions {
+  position: absolute !important;
+  bottom: -2rem;       /* règle la valeur jusqu’à ce que la boîte rase juste le bas de la bulle */
+  left: 3rem;             /* ou calc(100% - X) pour coller à droite */
+
+}
+
+
+}
+
+
+
+
+
+  /* boutonscroll */
+
+.scroll-to-bottom-btn {
+  position: fixed;
+  /* on centre horizontalement */
+  left: 50%;
+  transform: translateX(-50%);
+  /* on retire la mise à droite précédente */
+  right: auto;
+
+  /* on reste fixé juste au-dessus de la barre basse */
+  bottom: calc(env(safe-area-inset-bottom) + var(--bar-h) + 0.5rem);
+
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #000000;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1500;
+  transition: opacity 0.2s;
+  text-shadow: 1px 1px 0 #888; /* Simule un léger gras */
+}
+
+.scroll-to-bottom-btn.show {
+  display: flex;
+  opacity: 1;
+}
+
+
+@media (min-width: 769px) {
+  .scroll-to-bottom-btn {
+    /* lift it just above your desktop input row;
+       tweak 4rem to your actual input-container height + margin */
+    bottom: 10rem !important;
+    
+  }
+}
+
+
+/* boutons send moins visibles pendant envoi */
+.sending-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+
+
+/* ajustements barre mobile  */
+@media screen and (max-device-width: 768px) {
+
+      /* images PNG */
+      .mobile-icon img,
+      .scenario-img,
+      .matiere-img{
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+      }
+      
+      .mobile-action-bar .mobile-icon,
+      .mobile-action-bar .mobile-button {
+        -webkit-tap-highlight-color: transparent !important;
+        -moz-tap-highlight-color: transparent !important;
+        outline: none;
+        background: none !important; /* au cas où le navigateur applique un gris par défaut */
+      }
+      button {
+        background: none;
+        border: none;
+      }
+      .mobile-action-bar img.scenario-img,
+      .matiere-img {
+        width: 2rem; /*     taille images         */
+        height: 2rem;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+      }
+      .mobile-icon,
+      .matiere-wrapper,
+      .scenario-wrapper {
+        width: 3rem;  /*     taille barre du bas        */
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-action-bar  {
+        -webkit-tap-highlight-color: transparent !important;
+        -moz-tap-highlight-color: transparent !important;
+        outline: none !important;
+        background-color: transparent !important;
+      }
+       .mobile-action-bar {
+        display: flex;     
+        justify-content: space-evenly; /* ou space-around si tu préfères un peu plus d’espace sur les bords */
+        align-items: center;
+
+      }   
+
+
+
+
+
+
+
+
+      
+      /* Pour les <select> spécifiques */
+      .mobile-action-bar select {
+        background: none !important;
+        border: none;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+ 
+      /* Optionnel : pour que les <form> ne flashent pas */
+      .mobile-action-bar form {
+        background: transparent !important;
+      }
+      .mobile-header{
+        text-align: center;
+        position:fixed;
+        top:0; left:0; right:0;
+        background:#fff;
+        font-weight:bold;
+        border-bottom:1px solid #ddd;
+        z-index:1000;
+        /* PAS de height ici ➜ la hauteur réelle = contenu + padding */
+        box-sizing:border-box;
+        font-size: 1.1rem; /* ou 18px */
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-weight: bold;
+      }
+
+
+
+
+/* annimation envoi  */
+      @keyframes pop {
+        0%   { transform: scale(1); }
+        50%  { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+      
+      .send-btn.clicked {
+        animation: pop 0.25s ease;
+      }
+
+
+
+}
+
+
+/* ======= PATCH DOT LOADER MOBILE ======= */
+
+/* 1. Neutraliser les définitions précédentes */
+.mobile-loader {
+  all: unset;
+}
+
+/* 2. Appliquer le style mobile uniquement */
+@media screen and (max-device-width: 768px) {
+  .mobile-loader {
+    position: fixed;
+    bottom: 5rem; /* position dot loader a partir du bas  */
+    left: 0;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    z-index: 1500;
+    background: transparent;
+  }
+
+  .mobile-loader .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out both;
+  }
+
+  .mobile-loader .dot:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  .mobile-loader .dot:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  .mobile-loader .dot:nth-child(3) {
+    animation-delay: 0;
+  }
+  
+  @keyframes bounce {
+    0%, 80%, 100% {
+      transform: scale(0);
+    } 40% {
+      transform: scale(1);
+    }
+  }
+  
+     /* LA boîte de conversation devient FIXÉE entre header et footer */
+    #conversation, .conversation-box {
+      position: fixed !important;
+      top: calc(env(safe-area-inset-top) + 3.5rem) !important;    /* 3.5rem ≃ hauteur header */
+      bottom: calc(env(safe-area-inset-bottom) + 4rem) !important; /* 5rem ≃ hauteur barre du bas + petite marge */
+      margin: 0 auto;
+      flex: 1 1 auto;
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
+      background-color: rgb(255, 255, 255);
+      width: 100%;
+      max-width: 730px;
+      font-size: 0.8rem; /* ou 18px */
+      font-family: "Segoe UI", Roboto, sans-serif;
+      padding-top: 0;
+      margin-top: 0;
+    }   
+
+
+    .mobile-header {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      background: white;
+    }
+}
+
+
+/* annimation changement de page  */
+body {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+
+
+
+/* modale info   */
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  font-size: 1rem;
+}
+
+.modal-box h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+
+/* editeur python    */
+
+
+#python-editor {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+}
+
+
+/*
+#python-editor textarea {
+  display: none !important; 
+}
+*/
+
+#python-editor .CodeMirror {
+  width: 100% !important;
+  height: 250px;
+  box-sizing: border-box !important;
+  font-family: SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
+  font-size: 1rem;
+  letter-spacing: 0 !important;
+  background: white;
+
+}
+
+.CodeMirror-scroll {
+  width: 100% !important;
+  overflow-x: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.CodeMirror-lines {
+  padding-left: 0 !important;
+}
+
+  /*  menu toggleeditor */
+.mobile-toolbar {
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.python-editor-zone {
+  width: 100%;
+  max-height: 40vh;      /* never higher than 40 % of viewport */
+  overflow: hidden;
+  border-radius: .75rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / .12);
+}
+@media (max-width:768px){
+  .python-editor-zone .CodeMirror { height: 200px; }
+}
+
+pre {
+  margin:0;
+  background-color: #111;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  margin-top: 0 px;
+  margin-bottom: 10px;
+  font-family: Consolas, monospace;
+}
+
+code {
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  display: block;
+  padding: 0;
+}
+
+
+
+
+.reactions .react.used {
+
+  color: #ff0000 !important;        /* ou la couleur que tu préfères */
+  opacity: 0.9 !important;
+}
+.react.used img.emoji-icon {
+  filter: hue-rotate(90deg) saturate(150%) brightness(1.2);
+  transform: scale(1.1);
+}
+
+.react img.emoji-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+
+
+/* affichage code  */ 
+.message pre {
+  background: #f6f6f6;
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  font-family: Consolas, monospace;
+  font-size: 0.95rem;
+  white-space: pre-wrap; /* crucial : garde les \n */
+  overflow-x: auto;       /* scroll si trop long */
+  line-height: 1.3;
+}
+
+.message code {
+  display: block;
+  white-space: pre-wrap;
+}
+
+.bubble pre {
+  background: #f7f7f7;
+  font-family: Consolas, monospace;
+  white-space: pre-wrap;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.message.user .bubble pre,
+.message.user .bubble code {
+  white-space: pre-wrap;
+  font-family: Consolas, monospace;
+  font-size: 0.95rem;
+  background: #f0f0f0;
+  padding: 0.4rem;
+  margin-top: 0.4rem;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+.message.user .bubble pre,
+.message.user .bubble code {
+  background-color: #e5f0ff !important; /* gris bleuté clair */
+  color: #000;
+  border-radius: 5px;
+}
+.message.user .bubble pre {
+  border: 1px solid #c1d9f1;
+}
+
+
+
+
+
+/* barre non utilisable si sending */
+.input-readonly {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
+
+/* barre ordi    */
+
+@media screen and (min-width: 769px) {
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+    background: #ffffff;
+  }
+ 
+  .CodeMirror textarea {
+  min-height: 100px !important;
+  min-width: 100% !important;
+}
+
+
+  main, .main-container, .page, .page-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+  }
+
+    /* LA boîte de conversation devient FIXÉE entre header et footer */
+    #conversation, .conversation-box {
+      position: fixed !important;
+      top: calc(env(safe-area-inset-top) + 3rem) !important;    /* 3.5rem ≃ hauteur header */
+      bottom: calc(env(safe-area-inset-bottom) + 4rem) !important; /* 5rem ≃ hauteur barre du bas + petite marge */
+      margin: 0 auto;
+      flex: 1 1 auto;
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
+      background-color: rgb(255, 255, 255);
+      width: 100%;
+      max-width: 730px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+border: 1px solid #eee;
+border-radius: 0.8rem;
+background: white;
+    }
+
+
+
+  .mobile-header {
+    width: 50%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+
+  .mobile-header .mobile-icon {
+    left: 0.5rem; /* à l’intérieur de la .mobile-header */
+    position: absolute;
+  }
+
+
+
+  .mobile-action-bar {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    border-top: 1px solid #ccc;
+    border-radius: 1rem 1rem 1rem 1rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+
+  }
+
+  .mobile-bar-input {
+    display: flex;
+    width: 100%;
+    max-width: 640px;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .mobile-bar-input input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    background: #f7f7f7;
+  }
+
+  .send-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+  }
+
+  .send-btn img {
+    width: 1.8rem;
+    height: 1.8rem;
+    object-fit: contain;
+  }
+
+  .mobile-bar-icons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 640px;
+    gap: 1rem;
+    margin-top: 0.4rem;
+  }
+.scenario-img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+  .mobile-bar-icons .mobile-icon img,
+  .mobile-bar-icons .scenario-img {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+  }
+  .mobile-bar-icons .mobile-icon img:hover,
+  .mobile-bar-icons .scenario-img:hover {
+    transform: scale(1.15);
+    transition: transform 0.2s;
+  }
+  .mobile-header {
+    display: block !important;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #fff;
+    padding: 0.8rem 1rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  }
+  .input-desktop {
+    display: none !important;
+  }
+  .ia-buttons {
+    display: none !important;
+  }
+
+  /*  menu toggleeditor */
+  .mobile-toolbar .mobile-icon:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+  }
+  .mobile-toolbar img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+  
+  .mobile-bar-input {
+    position: relative;
+    z-index: 10;
+  }
+  #python-editor {
+    position: fixed;
+    bottom: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 700px;
+    background: white;
+    z-index: 3000;
+    pointer-events: auto;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+  
+  .CodeMirror {
+    pointer-events: auto;
+    z-index: 3001;
+    min-height: 150px;
+    font-size: 1rem;
+  }
+  
+
+  /* dot loader  */
+  .mobile-loader {
+    position: fixed;
+    bottom: 5.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 3000;
+  }
+  
+  .mobile-loader .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 50%;
+    animation: pulse-dot 1.2s infinite ease-in-out both; /* ou animation: pulse-dot 1.2s infinite ease-in-out both; */
+    margin: 0 3px;
+  }
+  
+  .mobile-loader .dot:nth-child(1) { animation-delay: -0.32s; }
+  .mobile-loader .dot:nth-child(2) { animation-delay: -0.16s; }
+  .mobile-loader .dot:nth-child(3) { animation-delay: 0; }
+  
+  @keyframes bounce {
+    0%, 80%, 100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+  @keyframes pulse-dot {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.9); }
+    40%          { opacity: 1;   transform: scale(1.3); }
+  }
+
+}
+
+  /* dbarre qui grandit sur ordi mais pas tel  */
+
+.mobile-bar-input textarea {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  border-radius: 2rem;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.mobile-bar-input textarea {
+  height: 1.5em; /* comme un input */
+  line-height: 1.3;
+
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  resize: none;
+  overflow: hidden;
+}
+
+
+/* gestion burger */
+
+
+/* ------------hamburger menu ------------ */
+
+.mobile-header .mobile-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.3rem;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  right: unset;
+  width: 260px;
+  height: 100vh;
+  background: white;
+  z-index: 9999;
+  /*box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);*/
+  top: 3.5rem; /* ou la hauteur exacte de .mobile-header */
+height: calc(100vh - 3.5rem);
+padding-bottom: 2rem; /* évite que les derniers éléments soient collés au bas */
+padding-left: 1rem;
+}
+
+
+
+.hamburger-menu.hidden {
+  display: none;
+}
+
+.hamburger-menu {
+  transform: translateX(-100%);
+  opacity: 0;
+  /*transition: transform 0.6s ease, opacity 0.6s ease;*/
+  transition: transform 0.3s ease-out, opacity 0.6s ease-in;
+}
+
+.hamburger-menu.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+
+.accordion-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding-top: 0rem;
+  padding-bottom: 0.6rem;
+  cursor: pointer;
+}
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding-left: 0.5rem;
+}
+.accordion-panel .lang-button {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.4rem 0;
+  margin: 0;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+
+.accordion-panel form {
+  margin: 0;
+  padding: 0;
+}
+
+
+.accordion-section {
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Réduction du padding interne des panels pour compacité */
+.accordion-panel {
+  padding-left: 0.5rem;
+
+}
+.accordion-section.open .accordion-panel {
+  max-height: 500px; /* assez grand pour le contenu */
+}
+
+
+#hamburgerMenu a,
+#hamburgerMenu .lang-button {
+  text-decoration: none;
+  color: inherit;
+}
+#hamburgerMenu .scenario-img {
+  width: 1.6rem;
+  height: 1.6rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+.lang-button {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 0.4rem;
+    user-select: none;
+  -webkit-tap-highlight-color: transparent; /* pour mobile */
+}
+
+
+.lang-button .scenario-img {
+  display: inline-block;
+}
+
+.lang-button:focus {
+  outline: none;
+}
+
+
+
+.lang-button.active::after {
+  content: " ✔";
+  color: rebeccapurple;
+  font-weight: bold;
+  margin-left: 0.4rem;
+}
+
+.mobile-icon img {
+  vertical-align: middle;
+}
+
+.accordion-toggle,
+.lang-button{
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent; /* évite flash bleu sur mobile */
+}
+
+.accordion-toggle{
+  font-weight: 500;
+}
+
+
+
+.accordion-toggle *,
+.lang-button *{
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; /* évite flash bleu sur mobile */
+}
+/* ----------------------------------- */
+
+
+#python-editor .CodeMirror * {
+  user-select: text !important;
+}
+
+.CodeMirror textarea {
+  opacity: 1 !important;
+  height: auto !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 10000 !important;
+}
+
+/* ✅ Corrige l'interaction clavier avec CodeMirror */
+.CodeMirror textarea {
+  opacity: 0 !important;              /* invisible mais présent */
+  position: absolute !important;
+  z-index: 1 !important;
+  pointer-events: auto !important;   /* indispensable pour clic/clavier */
+}
+
+/* ✅ evite le zoom sur input */
+@media screen and (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+
+
+
+/* 🌐 Web classique : l'éditeur apparaît 8rem au-dessus du bas */
+#python-editor {
+  position: fixed;
+  bottom: 10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 90vw;
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+
+
+
+/* correctifs erreurs */
+#python-editor {
+  pointer-events: auto;
+  z-index: 3000;
+  max-height: 50vh;               /* Limite la hauteur pour laisser la barre visible */
+  overflow: auto;
+  margin-bottom: 3rem;          /* Décale l’éditeur pour ne pas recouvrir la barre */
+}
+
+/* Optionnel : si le textarea prend trop de place même vide */
+#python-editor .CodeMirror {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+/* Améliore la réponse tactile sur mobile */
+.mobile-icon,
+.mobile-bar-input input,
+.mobile-bar-input {
+  touch-action: manipulation;
+  pointer-events: auto !important;
+  user-select: none;
+}
+html, body {
+  overflow: auto !important;
+  height: auto !important;
+}
