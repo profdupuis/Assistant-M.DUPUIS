@@ -24,15 +24,15 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 
-MODEL_CORRECTION = "gpt-4.1"
+MODEL_CORRECTION = "gpt-4o-mini" # "gpt-4.1"
 TEMPERATURE_CORRECTION=0.2
-MODEL_FEEDBACK = "gpt-4.1"
+MODEL_FEEDBACK = "gpt-4o-mini" # "gpt-4.1"
 TEMPERATURE_FEEDBACK=0.3
-MODEL_RESUME = "gpt-4.1"
+MODEL_RESUME = "gpt-4o-mini" # "gpt-4.1"
 TEMPERATURE_RESUME=0
 # parametre temperature = 0.3 ou  0.5 ?
 
-MAX_RESUME_TOKENS = 40000
+MAX_RESUME_TOKENS = 8000
 TOKEN_USAGE_RATIO_BEFORE_SUMMARIZE = 0.5  # 50% de la limite
 MAX_TOKENS_BY_MODEL = {
     "gpt-4": 8192,
